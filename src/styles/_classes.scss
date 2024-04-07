@@ -1,0 +1,245 @@
+@use "./colors" as *;
+@import "./mixins";
+
+// OTP
+.otp {
+
+  > div {
+    gap: 8px;
+  }
+
+  input {
+    background-color: $inputsBg !important;
+    border: 1px solid $border !important;
+    width: 45px !important;
+    height: 45px !important;
+    @include rad(8px);
+    margin-right: 0 !important;
+  }
+}
+
+.otpCounter {
+  > div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+
+    span {
+      font-size: 16px !important;
+      font-weight: 400 !important;
+      line-height: 140% !important;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    button {
+      background-color: transparent;
+      color: $main;
+      cursor: pointer;
+      &:disabled {
+        color: $placeholder;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+
+// Border
+fieldset {
+  border: none !important;
+}
+.category {
+  .MuiInputBase-root {
+    fieldset {
+      border: none !important;
+    }
+  }
+
+  .css-frckzf-MuiFormLabel-root-MuiInputLabel-root {
+    color: $secondary !important;
+    transform: translate(14px , 16px) scale(1) !important;
+    -webkit-transform: translate(14px , 16px) scale(1) !important;
+    -moz-transform: translate(14px , 16px) scale(1) !important;
+    -ms-transform: translate(14px , 16px) scale(1) !important;
+    -o-transform: translate(14px , 16px) scale(1) !important;
+  }
+
+  svg {
+    color: $secondary !important;
+  }
+}
+.css-sdefv1-MuiListSubheader-root {
+  color: $main !important;
+}
+
+// Shine
+.shine .image {
+	position: relative;
+}
+.shine .image::before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+.shine:hover .image::before {
+	-webkit-animation: shine .75s;
+	animation: shine .75s;
+}
+
+
+// Footer 
+.socialFooter {
+  display: flex !important;
+  align-items: center;
+  svg {
+    @include tra(.5s);
+    color: #FFF;
+    cursor: pointer;
+
+    &:hover {
+      color: $secondary !important;
+      transform: rotate(360deg) scale(1.5);
+      -webkit-transform: rotate(360deg) scale(1.5);
+      -moz-transform: rotate(360deg) scale(1.5);
+      -ms-transform: rotate(360deg) scale(1.5);
+      -o-transform: rotate(360deg) scale(1.5);
+    }
+  }
+}
+
+// Newsletter 
+.newsletter {
+  position: relative;
+  width: 550px;
+  input {
+    background-color: white;
+    @include rad(12px);
+    padding: 18px;
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+  button {
+    position: absolute;
+    left: 8px;
+    padding: 12px 30px;
+    background-color: $main;
+    color: white;
+    border: 1px solid transparent;
+    @include tra(.5s);
+    cursor: pointer;
+    &:hover {
+      background-color: transparent ;
+      border: 1px solid $main;
+      color:$main ;
+    }
+    @include rad(8px);
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+}
+
+// Profile Link
+.profileLinks {
+  a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #434E58;
+    padding: 8px 16px;
+    width: 100%;
+    @include tra(.5s);
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+
+
+    &:hover , &.active {
+      background-color: rgba(121, 215, 10, 0.12);
+      border-left: 1px solid $secondary;
+      border-right: 1px solid $secondary;
+    }
+    
+  }
+}
+
+// Circular prog
+.css-6jb6g1-MuiCircularProgress-root {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+// Accordion
+.MuiAccordion-root {
+  box-shadow: none !important;
+}
+.MuiAccordionSummary-content {
+  margin: 15px 0 !important;
+}
+
+
+
+
+
+.image-gallery-slide , .image-gallery-image {
+  min-height: 400px !important;
+  max-height: 500px !important;
+}
+
+.image-gallery-content.fullscreen {
+  .image-gallery-slide , .image-gallery-image {
+    max-height: 100vh !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width : 600px) {
+  .newsletter {
+    width: 350px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
