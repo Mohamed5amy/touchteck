@@ -1,34 +1,39 @@
 import { Button, IconButton, Stack, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../../images/logo.svg"
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from "react-router-dom";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useState } from "react";
+import { useIsAuthenticated } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
+import Search from "./Search";
 
 
 
-const MobileNav = () => {
+const MobileNav = ({setActiveCart}) => {
 
   const [active, setActive] = useState(false)
   
   return (
-    <Stack position={"relative"} >
-      <Top setActive={setActive} />
+    <Stack position={"relative"} pb={8} >
+      <Top setActive={setActive} setActiveCart={setActiveCart} />
       <Search />
       <Menu active={active} setActive={setActive} />
     </Stack>
   )
 }
 
-const Top = ({setActive}) => {
+const Top = ({setActive , setActiveCart}) => {
+
+  const isAuthenticated = useIsAuthenticated()
+  const navigate = useNavigate()
+  
   return (
     <Stack py={10} direction={"row"} alignItems={"center"} justifyContent={"space-between"} >
-      <MenuIcon sx={{cursor : "pointer" , transition : ".5s" , "&:hover" : {color : "primary.main"}}} onClick={() => setActive(true)} />
-      <img src={logo} alt="" width={100} />
+      {/* <MenuIcon sx={{cursor : "pointer" , transition : ".5s" , "&:hover" : {color : "primary.main"}}} onClick={() => setActive(true)} /> */}
+      <img src={logo} alt="" width={80} />
       <Stack direction={"row"} alignContent={"center"} spacing={4} sx={{ "svg" : { maxWidth : "25px" } }} >
-        <Link>
+        <Link to={isAuthenticated() ? "/profile" : "/login"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -47,7 +52,7 @@ const Top = ({setActive}) => {
             ></path>
           </svg>
         </Link>
-        <Link>
+        <Link to={isAuthenticated() ? "/wishlist" : "/login"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -73,7 +78,7 @@ const Top = ({setActive}) => {
             ></path>
           </svg>
         </Link>
-        <Link>
+        <Stack sx={{transition : ".5s" , "&:hover" : {color : "primary.secondary"} , cursor : "pointer"}} onClick={() => {isAuthenticated() ? setActiveCart(true) : navigate("/login")}}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -99,16 +104,8 @@ const Top = ({setActive}) => {
               clipRule="evenodd"
             ></path>
           </svg>
-        </Link>
+        </Stack>
       </Stack>
-    </Stack>
-  )
-}
-
-const Search = () => {
-  return (
-    <Stack className="search" direction={"row"} alignItems={"center"} mb={8} >
-      <input type="text" placeholder="Search" />
     </Stack>
   )
 }

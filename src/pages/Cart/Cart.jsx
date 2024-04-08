@@ -28,7 +28,7 @@ const Cart = () => {
       {products.length > 0 && <Grid container spacing={20} mb={14}>
         <Grid item xs={12} md={7}>
           <Box bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"} overflow={"scroll"} >
-            <Stack direction={"row"} alignItems={"center"} spacing={2} mb={10}>
+            <Stack direction={{xs : "column" , sm : "row"}} alignItems={{xs : "start" , sm : "center"}} spacing={2} mb={10}>
               <Typography variant="h4" color={"#02111D"} > عربة التسوق الخاصة بك </Typography>
               <Typography variant="subtitle" color={"#78828A"} > ({products?.length} من المنتجات) </Typography>
             </Stack>

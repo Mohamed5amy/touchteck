@@ -50,7 +50,7 @@ const Orders = () => {
           {orders?.map(add => {
             return (
               <Box bgcolor={"#fff"} border={"1px solid #E3E9ED"} borderRadius={"8px"} p={8} mb={8} position={"relative"} key={add.id}>
-                <Stack direction={"row"} alignItems={"start"} justifyContent={"space-between"}>
+                <Stack direction={{xs : "column" , sm : "row"}} spacing={4} alignItems={"start"} justifyContent={"space-between"}>
                   <Stack spacing={8}>
                     <Typography fontWeight={500} fontSize={16} color={"#02111D"} > رقم الطلب : <span style={{color : "#66707A"}} >{add.id}#</span></Typography>
                     <Typography fontWeight={500} fontSize={16} color={"#02111D"} > الحالة : <span style={{color : "#66707A"}} >{add.status}</span></Typography>

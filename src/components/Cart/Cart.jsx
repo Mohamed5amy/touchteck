@@ -37,8 +37,8 @@ const Cart = ({active , setActive}) => {
   
   return (
     <Stack position={"fixed"} width={active ? "100%" : "0px"} overflow={"hidden"} height={"100vh"} bgcolor={"#13131bad"} right={0} top={0} zIndex={100} ml={0} sx={{transition : ".5s"}} >
-      <Stack position={"absolute"} left={0} top={0} height={"100vh"} width={500} bgcolor={"primary.whiteBg"} p={20}>
-        <Stack direction={"row"} alignItems={"center"} spacing={3} pb={4} borderBottom={"1px solid"} borderColor={"primary.border"} mb={12}>
+      <Stack position={"absolute"} left={0} top={0} height={"100vh"} width={{xs : 350 , sm : 500}} bgcolor={"primary.whiteBg"} p={{xs : 12 , sm : 20}}>
+        <Stack direction={{xs : "column", sm : "row"}} alignItems={"center"} spacing={3} pb={4} borderBottom={"1px solid"} borderColor={"primary.border"} mb={12}>
           <Typography variant="h4" > عربة التسوق الخاصة بك </Typography>
           <Typography variant="subtitle" color={"text.secondary"} >( {products?.length} من المنتجات)</Typography>
         </Stack>
@@ -61,11 +61,11 @@ const Cart = ({active , setActive}) => {
         </Stack>}
         {products.length == 0 && <Typography fontSize={20} fontWeight={500} color={"text.third"} mb={8} > لا يوجد منتجات حتي الان في عربة التسوق الخاصة بك اضف بعض المنتجات الان! </Typography>}
         {/* Buttons */}
-        <Stack direction={"row"} justifyContent={"space-between"} >
+        <Stack direction={{xs : "column" , sm : "row"}} spacing={4} justifyContent={"space-between"} >
           {products.length > 0 && <Link to={"/cart"} >
-          <Button variant="contained" sx={{ py : 8 , borderRadius : "8px" , width : "190px" }} onClick={() => setActive(false)}> الحساب </Button>
+          <Button variant="contained" sx={{ py : 8 , borderRadius : "8px" , width : {xs : "100%" , sm : "190px"} }} onClick={() => setActive(false)}> الحساب </Button>
           </Link>}
-          <Button variant="outlined" sx={{ py : 8 , borderRadius : "8px" , width : "190px" }} onClick={() => setActive(false)} > اكمل التسوق </Button>
+          <Button variant="outlined" sx={{ py : 8 , borderRadius : "8px" , width : {xs : "100%" , sm : "190px"} }} onClick={() => setActive(false)} > اكمل التسوق </Button>
         </Stack>
         {/* Close */}
         <IconButton sx={{ position : "absolute" , right : 10 , top : 10 }} onClick={() => setActive(false)} > <CloseRoundedIcon /> </IconButton>

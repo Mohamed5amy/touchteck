@@ -1,14 +1,10 @@
 import { Stack, Typography } from "@mui/material";
-// import facebook from "../../images/FB.png"
-// import whats from "../../images/TW.png"
-// import insta from "../../images/Insta.png"
-// import linked from "../../images/IN.png"
 import { Link } from "react-router-dom";
 
 
 const Top = () => {
   return (
-      <Stack py={6} direction={"row"} bgcolor={"primary.main"} justifyContent={{xs : "center" , md : "space-between" }} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} color={"#FAFAFA"} >
+      <Stack py={6} direction={{xs : "column" , md : "row"}} spacing={4} alignItems={{xs : "center" , md : "start"}} bgcolor={"primary.main"} justifyContent={{xs : "center" , md : "space-between" }} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} color={"#FAFAFA"} >
         {/* Middle */}
         <Typography variant="body" > تخفيضات الصيف على جميع بدلات السباحة والتوصيل السريع المجاني - خصم 50%! <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > تسوق الآن </strong> </Link> </Typography>
         {/* Right */}

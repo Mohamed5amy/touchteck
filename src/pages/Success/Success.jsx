@@ -32,7 +32,7 @@ const Success = () => {
             <Typography variant="h2" color={"#02111D"} textAlign={"center"} > تم اكمال طلبك بنجاح و الطلب قيد التنفيذ </Typography>
             <Typography variant="subtitle" color={"#242432"} textAlign={"center"} > يمكنك تتبع حالة طلبك من طلباتي </Typography>
           </Stack>
-          <a href={"/products"} >
+          <a href={"/orders"} >
             <Button variant="contained" sx={{p : {xs : "16px 70px" , sm : "16px 120px"} , borderRadius : "8px"}} > طلباتي</Button>
           </a>
         </Stack>
