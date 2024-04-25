@@ -9,6 +9,10 @@ import apple from "../../images/apple.svg"
 import playstore from "../../images/playstore.svg"
 
 const Footer = () => {
+  
+  const d = new Date();
+  let year = d.getFullYear();
+  
   return (
     <Stack bgcolor={"#042036"} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} py={12} >
       <Grid container spacing={20} pb={12} >
@@ -64,7 +68,7 @@ const Footer = () => {
       </Grid>
       <Stack alignItems={"center"} pt={8} borderTop={"1px solid"} borderColor={"#66707A"} direction={{xs : "column" , sm : "row"}} justifyContent={"space-between"} spacing={8} >
         <Typography fontSize={{xs : 14 , sm : 16}} fontWeight={600} color={"#DDD"} > 
-        © 2023 تاتش تيك. جميع الحقوق محفوظة علي عطوان
+        تاتش تيك. جميع الحقوق محفوظة {year} © 
         </Typography>
         <Stack direction={"row"} spacing={8} className="socialFooter" >
           <svg

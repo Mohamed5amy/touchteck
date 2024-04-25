@@ -206,7 +206,21 @@ fieldset {
 }
 
 
+// Swiper bullets
+.swiper-pagination-bullet {
+  background-color: $border;
+  @include rad(12px);
+  opacity: 0.64;
+  width: 16px;
+  height: 8px;
+  @include tra(.5s);
+  margin: 0 2px !important;
 
+  &.swiper-pagination-bullet-active {
+    width: 40px;
+    background-color: $main;
+  }
+}
 
 
 

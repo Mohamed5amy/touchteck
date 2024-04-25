@@ -407,10 +407,10 @@ const ProductsList = ({products}) => {
         </TextField>
       </Stack> */}
       {products.length > 0 ? <Grid container spacing={15} mb={24} >
-        {products?.map(pro => {
+        {products?.map((pro , i) => {
           return (
             <Grid item xs={12} sm={12} md={6} lg={4} key={pro.id} >
-              <Pro product={pro} />
+              <Pro product={pro} newP={i <= 3} />
             </Grid>
           )
         })}

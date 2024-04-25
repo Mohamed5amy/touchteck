@@ -12,6 +12,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavigateBeforeRounded } from "@mui/icons-material";
 import logo from "../../images/logo.svg"
+import Slider from "../../components/Slider/Slider";
 
 
 const Home = () => {
@@ -20,6 +21,8 @@ const Home = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
+
+  // Products
   useEffect(() => {
     axios
         .get(import.meta.env.VITE_API + "product", {
@@ -35,7 +38,7 @@ const Home = () => {
             console.log(err);
         })
   }, []);
-
+  // Slides
   useEffect(() => {
     axios
         .get(import.meta.env.VITE_API + "slides", {
@@ -52,7 +55,7 @@ const Home = () => {
         })
         .finally(() => setLoading(false));
   }, []);
-
+  // Scroll to top
   useEffect(() => {
     window.scrollTo(0, 0);
   } , [])
@@ -61,17 +64,17 @@ const Home = () => {
     !loading ?
     <Stack>
       {/* image */}
-      <Link to={slides && slides[0]?.title} target="blank" >
-        <Stack height={{xs : "auto" , md : 525}}> <img src={slides && "https://backend.touchtechco.com/public/" + slides[0]?.image} alt="" height={"100%"} width={"100%"} /> </Stack>
-      </Link>
+      <Slider slides={slides} />
       {/* Categories */}
       <Cats />
       {/* Products */}
       <Products products={products} />
       {/* Second Image */}
-      <Link to={slides && slides[1]?.title} target="blank" >
-        <Stack mt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} height={{xs : "auto" , md : 525}}> <img src={slides && "https://backend.touchtechco.com/public/" + slides[1]?.image} alt="" height={"100%"} width={"100%"} /> </Stack>
-      </Link>
+      {slides && <a href={slides[0]?.title} target="_blank" rel="noreferrer" >
+        <Stack mt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} height={{xs : "auto" , md : 525}}>
+          <img src={import.meta.env.VITE_LINK + slides[0]?.image} width={"100%"} alt="offers Image" />
+        </Stack>
+      </a>}
       {/* Best Selling */}
       <Best products={products} />
       {/* Partners */}
@@ -171,7 +174,7 @@ const Products = ({products}) => {
         {products?.slice(0 , 4).map((product) => {
           return (
             <Grid item xs={6} md={4} lg={3} key={product.id}>
-              <Pro product={product} />
+              <Pro product={product} newP={true} />
             </Grid>
           )
         })}
