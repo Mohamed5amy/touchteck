@@ -338,11 +338,11 @@ const Price = ({setMaxPrice , setMinPrice}) => {
           />
           <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} spacing={2} mt={4}>
             <Box bgcolor={"primary.errorBg"} padding={"4px 8px"} borderRadius={"4px"} >
-              <Typography variant="breadcrumbs" > {value[0]} جنية </Typography>
+              <Typography variant="breadcrumbs" > {value[0]} ₪ </Typography>
             </Box>
             <Typography variant="breadcrumbs" color={"text.secondary"} > الى </Typography>
             <Box bgcolor={"primary.errorBg"} padding={"4px 8px"} borderRadius={"4px"} >
-              <Typography variant="breadcrumbs" > {value[1]} جنية </Typography>
+              <Typography variant="breadcrumbs" > {value[1]} ₪ </Typography>
             </Box>
           </Stack>
         </Stack>

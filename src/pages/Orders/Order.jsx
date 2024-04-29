@@ -68,9 +68,9 @@ const Order = () => {
                       <Typography lineHeight={"24px"} color={"#000"} > {product?.details?.title} </Typography>
                     </Stack>
                     <Typography lineHeight={"24px"} color={"#000"} flex={1} > {product?.color.title}</Typography>
-                    <Typography lineHeight={"24px"} color={"#000"} flex={1} > {product?.details?.price} جنيه</Typography>
+                    <Typography lineHeight={"24px"} color={"#000"} flex={1} > {product?.details?.price} ₪</Typography>
                     <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} > {product?.count} </Typography>
-                    <Typography fontWeight={600} lineHeight={"24px"} color={"primary"} flex={1} > {product.count * product.price} جنيه</Typography>
+                    <Typography fontWeight={600} lineHeight={"24px"} color={"primary"} flex={1} > {product.count * product.price} ₪</Typography>
                   </Stack>
                 )
               })}
@@ -82,7 +82,7 @@ const Order = () => {
             <Typography variant="h4" color={"#02111D"}> الحساب </Typography>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
               <Typography color={"#000"} > المجموع: </Typography>
-              <Typography color={"#000"} > {total} جنيه </Typography>
+              <Typography color={"#000"} > {total} ₪ </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
               <Typography color={"#000"} > التوصيل: </Typography>
@@ -90,7 +90,7 @@ const Order = () => {
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} pt={12} pb={16}>
               <Typography color={"#000"} > المجموع الكلي: </Typography>
-              <Typography color={"#000"} > {total} جنيه </Typography>
+              <Typography color={"#000"} > {total} ₪ </Typography>
             </Stack>
           </Box>
           <Box bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"} >

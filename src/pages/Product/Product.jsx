@@ -187,7 +187,7 @@ const Product = () => {
         </Grid>
         <Grid item xs={12} md={5.5}>
           <Typography variant="h2" mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.title}</Typography>
-          <Typography variant="h2" color={"primary"} mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.price} جنيه</Typography>
+          <Typography variant="h2" color={"primary"} mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.price} ₪</Typography>
           <Typography color={"#66707A"} mb={4} fontSize={14} sx={{textTransform : "capitalize"}}>{product?.description}</Typography>
           {/* Quantity */}
           <Stack mt={8} direction={"row"} alignItems={"center"} spacing={{xs : 2 , sm : 10}} mb={16} >

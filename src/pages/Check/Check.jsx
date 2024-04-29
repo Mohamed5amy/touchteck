@@ -99,14 +99,14 @@ const Check = () => {
                       <img src={"https://backend.touchtechco.com/public/" + product?.details?.images[0].url} alt="Cart Image" width={54} height={54} style={{objectFit : "fill" , borderRadius : "16px"}} />
                       <Typography lineHeight={"24px"} color={"#000"} fontWeight={500} >{product?.details?.title}</Typography>
                   </Stack>
-                  <Typography color={"primary"} fontWeight={500} > {product?.details?.price} جنيه </Typography>
+                  <Typography color={"primary"} fontWeight={500} > {product?.details?.price} ₪ </Typography>
                 </Stack>
               )
             })}
             
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
               <Typography color={"#000"} > المجموع: </Typography>
-              <Typography color={"primary"} > {total} جنيه </Typography>
+              <Typography color={"primary"} > {total} ₪ </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
               <Typography color={"#000"} > التوصيل: </Typography>
@@ -114,7 +114,7 @@ const Check = () => {
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} pt={12} pb={16}>
               <Typography color={"#000"} > المجموع الكلي: </Typography>
-              <Typography color={"primary"} > {total} جنيه </Typography>
+              <Typography color={"primary"} > {total} ₪ </Typography>
             </Stack>
 
             <FormControlLabel control={<Radio />} label="الدفع عند التوصيل" checked />

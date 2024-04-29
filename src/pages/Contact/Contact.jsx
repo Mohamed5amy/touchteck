@@ -47,7 +47,7 @@ const Contact = () => {
           <Box p={20} bgcolor={"#FCFDFD"} borderRadius={"16px"} height={"100%"} >
             <Stack direction={"row"} alignItems={"center"} spacing={4} p={8} border={"1px solid #E3E9ED"} borderRadius={"12px"} mb={4}>
               <IconButton color="primary"> <LocationOnOutlinedIcon /> </IconButton>
-              <Typography> فلسطين - نابوليس - شارع المخفية - امام ديوان كوني </Typography>
+              <Typography> فلسطين - نابلس - شارع المخفية - امام ديوان كوني </Typography>
             </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={4} p={8} border={"1px solid #E3E9ED"} borderRadius={"12px"} mb={4}>
               <a href="tel:009792347767"><IconButton color="primary"> <PhoneOutlinedIcon /> </IconButton></a>

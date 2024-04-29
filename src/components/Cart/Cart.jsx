@@ -57,7 +57,7 @@ const Cart = ({active , setActive}) => {
         </Stack>}
         {products.length > 0 && <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={24} >
           <Typography variant="subtitle" >المجموع</Typography>
-          <Typography variant="title" > {total} جنيه</Typography>
+          <Typography variant="title" > {total} ₪</Typography>
         </Stack>}
         {products.length == 0 && <Typography fontSize={20} fontWeight={500} color={"text.third"} mb={8} > لا يوجد منتجات حتي الان في عربة التسوق الخاصة بك اضف بعض المنتجات الان! </Typography>}
         {/* Buttons */}
@@ -102,7 +102,7 @@ const CartProduct = ({product}) => {
       {/* Content */}
       <Stack maxWidth={"180px"} spacing={2} >
         <Typography variant="label" > {product.details.title} </Typography>
-        <Typography variant="button" > {product.details.price} جنيه </Typography>
+        <Typography variant="button" > {product.details.price} ₪ </Typography>
         <Typography variant="inputs" color={"text.secondary"} > 
         الكمية: <strong> {product.count} </strong> , 
         اللون: <strong> {product.color.title} </strong>
