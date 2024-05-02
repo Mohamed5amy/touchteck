@@ -20,20 +20,17 @@ const Slider = ({slides}) => {
           disableOnInteraction: false,
         }}
         speed={1500}
-        loop
       >
         {slides.map((slide , i) => {
-          if (i !== 0) {
-            return (
-              <SwiperSlide key={i}>
-                <a href={slide.title} target='_blank' rel="noreferrer">
-                  <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
-                    <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"100%"} style={{objectFit : "fill"}} />
-                  </Stack>
-                </a>
-              </SwiperSlide>
-            )
-          }
+          return (
+            <SwiperSlide key={i}>
+              <a href={slide.title} target='_blank' rel="noreferrer">
+                <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
+                  <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"100%"} style={{objectFit : "fill"}} />
+                </Stack>
+              </a>
+            </SwiperSlide>
+          )
         })}
       </Swiper>
     </Stack>

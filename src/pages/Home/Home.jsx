@@ -13,6 +13,18 @@ import { Link } from "react-router-dom";
 import { NavigateBeforeRounded } from "@mui/icons-material";
 import logo from "../../images/logo.svg"
 import Slider from "../../components/Slider/Slider";
+import 'swiper/css/pagination';
+// import required modules
+import { Pagination , Autoplay } from 'swiper/modules';
+
+import ReactPlayer from 'react-player'
+
+
+
+
+
+
+
 
 
 const Home = () => {
@@ -41,7 +53,7 @@ const Home = () => {
   // Slides
   useEffect(() => {
     axios
-        .get(import.meta.env.VITE_API + "slides", {
+        .get(import.meta.env.VITE_API + "getSlideByType/1", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
             },
@@ -49,6 +61,24 @@ const Home = () => {
         .then((res) => {
             console.log(res.data.data.Slide);
             setSlides(res.data.data.Slide);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => setLoading(false));
+  }, []);
+  // Slide
+  const [slide, setSlide] = useState([])
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "getSlideByType/4", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data.data.Slide);
+            setSlide(res.data.data.Slide);
         })
         .catch((err) => {
             console.log(err);
@@ -67,12 +97,16 @@ const Home = () => {
       <Slider slides={slides} />
       {/* Categories */}
       <Cats />
+      {/* Video Slider */}
+      <VideoSlider />
+      {/* Thick Slider */}
+      <ThickSlider />
       {/* Products */}
       <Products products={products} />
       {/* Second Image */}
-      {slides && <a href={slides[0]?.title} target="_blank" rel="noreferrer" >
+      {slide && <a href={slide[0]?.title} target="_blank" rel="noreferrer" >
         <Stack mt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} height={{xs : "auto" , md : 525}}>
-          <img src={import.meta.env.VITE_LINK + slides[0]?.image} width={"100%"} alt="offers Image" />
+          <img src={import.meta.env.VITE_LINK + slide[0]?.image} width={"100%"} alt="offers Image" />
         </Stack>
       </a>}
       {/* Best Selling */}
@@ -125,7 +159,6 @@ const Cats = () => {
       <Swiper
         slidesPerView={6}
         spaceBetween={30}
-        loop
         className="mySwiper"
         style={{width : "100%"}}
         onSwiper={(swiper) => {
@@ -157,6 +190,102 @@ const Cats = () => {
           )
         })}
       </Swiper>
+    </Stack>
+  )
+}
+
+const VideoSlider = () => {
+
+  const [slides, setSlides] = useState([])
+
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "getSlideByType/3", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data.data.Slide);
+            setSlides(res.data.data.Slide);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => setLoading(false));
+  }, []);
+  
+  return (
+    <Stack pt={40} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
+      <Stack position={"relative"} width={"100%"} height={{xs : "200px" , md : "700px"}}>
+        <Swiper
+          pagination={{clickable : true}} 
+          modules={[Pagination ,Autoplay]} 
+          className="mySwiper" 
+          style={{width : "100%",height : "100%"}}
+          speed={1500}
+        >
+          {slides.map((slide , i) => {
+            return (
+              <SwiperSlide key={i}>
+                <ReactPlayer url={slide.title} width={"100%"} height={"100%"} controls muted playing loop />
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+      </Stack>
+    </Stack>
+  )
+}
+
+const ThickSlider = () => {
+
+  const [slides, setSlides] = useState([])
+
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "getSlideByType/2", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data.data.Slide);
+            setSlides(res.data.data.Slide);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => setLoading(false));
+  }, []);
+  
+  return (
+    <Stack pt={{xs : 10 , sm : 40}} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
+      <Stack position={"relative"} width={"100%"} height={{xs : "50px" , md : "100px"}}>
+        <Swiper
+          pagination={{clickable : true}} 
+          modules={[Autoplay]} 
+          className="mySwiper" 
+          style={{width : "100%",height : "100%"}}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          speed={1500}
+        >
+          {slides.map((slide , i) => {
+            return (
+              <SwiperSlide key={i}>
+                <a href={slide.title} target='_blank' rel="noreferrer">
+                  <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
+                    <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"50px"} style={{objectFit : "fill"}} />
+                  </Stack>
+                </a>
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+      </Stack>
     </Stack>
   )
 }
