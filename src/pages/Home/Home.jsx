@@ -98,7 +98,7 @@ const Home = () => {
       {/* Categories */}
       <Cats />
       {/* Video Slider */}
-      {/* <VideoSlider /> */}
+      <VideoSlider />
       {/* Thick Slider */}
       <ThickSlider />
       {/* Products */}
