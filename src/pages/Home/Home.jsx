@@ -183,7 +183,7 @@ const Cats = () => {
           return (
             <SwiperSlide key={cat.id} >
               <Link to={cat.id}>
-                <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={32} p={12} fontWeight={600} fontFamily={'"Rakkas", serif'}
+                <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={20} p={12} fontWeight={800}
                 sx={{transition : ".5s" , "&:hover" : {color : "primary.main" , borderColor : "primary.main"}}}> {cat.name} </Stack>
               </Link>
             </SwiperSlide>
@@ -217,7 +217,7 @@ const VideoSlider = () => {
   
   return (
     <Stack pt={40} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
-      <Stack position={"relative"} width={"100%"} height={{xs : "200px" , md : "700px"}}>
+      <Stack position={"relative"} width={"100%"} height={{xs : "200px" , md : "600px"}}>
         <Swiper
           pagination={{clickable : true}} 
           modules={[Pagination ,Autoplay]} 
@@ -278,7 +278,7 @@ const ThickSlider = () => {
               <SwiperSlide key={i}>
                 <a href={slide.title} target='_blank' rel="noreferrer">
                   <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
-                    <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"50px"} style={{objectFit : "fill"}} />
+                    <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"100px"} style={{objectFit : "fill"}} />
                   </Stack>
                 </a>
               </SwiperSlide>
@@ -293,7 +293,7 @@ const ThickSlider = () => {
 const Products = ({products}) => {
   
   return (
-    <Stack px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} pt={60} >
+    <Stack px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} pt={30} >
       <Header title={"منتجاتنا"} />
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={16} >
         <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > اكتشف منتجاتنا </Typography>
