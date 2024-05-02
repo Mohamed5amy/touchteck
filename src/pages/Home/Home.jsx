@@ -17,7 +17,7 @@ import 'swiper/css/pagination';
 // import required modules
 import { Pagination , Autoplay } from 'swiper/modules';
 
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player/youtube'
 
 
 
@@ -98,7 +98,7 @@ const Home = () => {
       {/* Categories */}
       <Cats />
       {/* Video Slider */}
-      <VideoSlider />
+      {/* <VideoSlider /> */}
       {/* Thick Slider */}
       <ThickSlider />
       {/* Products */}

@@ -3,12 +3,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../../images/logo.svg"
 import { Link } from "react-router-dom";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
-
-
+import axios from "axios";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 const MobileNav = ({setActiveCart}) => {
 
@@ -30,7 +31,7 @@ const Top = ({setActive , setActiveCart}) => {
   
   return (
     <Stack py={10} direction={"row"} alignItems={"center"} justifyContent={"space-between"} >
-      {/* <MenuIcon sx={{cursor : "pointer" , transition : ".5s" , "&:hover" : {color : "primary.main"}}} onClick={() => setActive(true)} /> */}
+      <MenuIcon sx={{cursor : "pointer" , transition : ".5s" , "&:hover" : {color : "primary.main"}}} onClick={() => setActive(true)} />
       <img src={logo} alt="" width={80} />
       <Stack direction={"row"} alignContent={"center"} spacing={4} sx={{ "svg" : { maxWidth : "25px" } }} >
         <Link to={isAuthenticated() ? "/profile" : "/login"}>
@@ -114,39 +115,51 @@ const Menu = ({active , setActive}) => {
 
   const items = [
     {
-      name : "Home"
+      name : "الرئيسة",
+      link : "/",
     },
     {
-      name : "About"
-    },
-    {
-      name : "Our Brands"
-    },
-    {
-      name : "Accessories"
-    },
-    {
-      name : "Audio"
-    },
-    {
-      name : "Networks"
-    },
-    {
-      name : "Devices"
-    },
-    {
-      name : "Repair Equipments"
-    },
-    {
-      name : "Protections"
+      name : "من نحن",
+      link : "/about",
     },
   ]
+
+  const items2 = [
+    {
+      name : "منتجاتنا",
+      link : "/products",
+    },
+    {
+      name : "علاماتنا التجارية",
+      link : "/brands",
+    },
+    {
+      name : "تواصل معنا",
+      link : "/contact",
+    },
+  ]
+
+  const [cats, setCats] = useState([])
+
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "generalCategory", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            setCats(res.data.data.GeneralCategory);
+            console.log(res.data.data.GeneralCategory);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+  }, []);
 
   const itemStyle = {
     transition : ".5s",
     cursor : "pointer",
-    borderLeft: "2px solid",
-    borderColor : "transparent",
     "svg" : {
       transition : ".5s",
     },
@@ -155,7 +168,6 @@ const Menu = ({active , setActive}) => {
     },
     "&:hover" : {
       bgcolor : "#79D70A0a",
-      borderColor : "primary.secondary",
       "svg" : {
         color : "primary.secondary"
       },
@@ -164,12 +176,14 @@ const Menu = ({active , setActive}) => {
       },
     },
   }
+
+  const navigate = useNavigate()
   
   return (
-    <Stack className="menu" position={"fixed"} width={active ? "300px" : "0px"} overflow={"hidden"} height={"100vh"} top={0} left={0} bgcolor={"primary.whiteBg"} py={20} boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"} sx={{transition : ".5s"}} zIndex={10000} >
-      <Stack width={"300px"} >
+    <Stack className="menu" position={"fixed"} width={active ? "300px" : "0px"} overflow={"hidden"} height={"100vh"} top={0} left={0} bgcolor={"primary.whiteBg"} py={20} boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"} sx={{transition : ".5s" , overflowY : "scroll"}} zIndex={10000} maxHeight={"100vh"} >
+      <Stack width={"300px"}>
 
-        <img src={logo} alt="" width={"150px"} style={{marginLeft : "20px" , marginBottom : "24px"}} />
+        <img src={logo} alt="" width={"150px"} style={{marginRight : "20px" , marginBottom : "24px"}} />
 
         <Stack mb={16} >
           {items.map((item , i) => {
@@ -179,9 +193,19 @@ const Menu = ({active , setActive}) => {
               </Stack>
             )
           })}
+          {cats?.map((item , i) => {
+              return <GCategory key={i} item={item} itemStyle={itemStyle} />
+          })}
+          {items2.map((item , i) => {
+            return (
+              <Stack key={i} direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle} >
+                <Typography variant="subtitle" > {item.name} </Typography>
+              </Stack>
+            )
+          })}
         </Stack>
 
-        <Stack px={10} > <Button variant="contained" sx={{py : "16px"}} > All Categories </Button> </Stack>
+        <Stack px={10}> <Button variant="contained" sx={{py : "16px"}} onClick={() => {navigate("/products") ; setActive(false)}} > جميع المنتجات </Button> </Stack>
 
         <IconButton color="primary" sx={{ position : "absolute" , right : "10px" , top : "10px" }} onClick={() => setActive(false)} > <ClearIcon /> </IconButton>
 
@@ -189,5 +213,57 @@ const Menu = ({active , setActive}) => {
     </Stack>
   )
 }
+
+
+const GCategory = ({item , itemStyle}) => {
+
+  const [active, setActive] = useState(false)
+  
+  return (
+    <>
+      <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
+          <Typography variant="button" noWrap >{item.name}</Typography>
+          {/* <KeyboardArrowDownIcon style={{transition : ".5s" , rotate : active ? "180deg" : "0deg"}} /> */}
+      </Stack>
+      {active && <Category cats={item?.categories} itemStyle={itemStyle} />}
+    </>
+  )
+}
+
+const Category = ({cats , itemStyle}) => {
+
+  const [active, setActive] = useState(false)
+  const [catId, setCatId] = useState("")
+  
+  return (
+      cats?.map((cat , i) => {
+        return (
+          <>
+            <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={16} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}
+            onClick={() => {setActive(!active) ; setCatId(cat.id)}}>
+              <Typography variant="button" noWrap display={"flex"} alignItems={"center"} > 
+                <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : "0deg"}} /> {cat.name}
+              </Typography>
+            </Stack>
+            {(active && catId == cat.id && cat?.sub_categories?.length > 0) && <SCategory cats={cat.sub_categories} itemStyle={itemStyle} />}
+          </>
+        )
+      })
+  )
+}
+
+const SCategory = ({cats , itemStyle}) => {
+  return (
+      cats?.map((cat , i) => {
+        return (
+          <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={32} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}>
+            <Typography variant="button" noWrap >{cat.title}</Typography>
+          </Stack>
+        )
+      })
+  )
+}
+
+
 
 export default MobileNav
