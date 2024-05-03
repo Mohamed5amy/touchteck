@@ -13,7 +13,7 @@ import wish from "../../images/cart.png"
 
 
 
-const Products = () => {
+const SCats = () => {
 
   const [catId, setCatId] = useState("")
   const [subCatId, setSubCatId] = useState("")
@@ -27,7 +27,6 @@ const Products = () => {
 
   const {id} = useParams()
 
-
   useEffect(() => {
     setLoading(true)
     axios
@@ -40,7 +39,7 @@ const Products = () => {
           brandsIds : brand,
           subCategoriesIds : [
             {
-              id : subCatId[0],
+              id : [id],
               options : filters
             }
           ],
@@ -50,15 +49,14 @@ const Products = () => {
           min_price : minPrice,
           categoriesIds : subCatId ? "" : catId,
           brandsIds : brand,
-          subCategoriesIds : subCatId && [{id : subCatId}],
+          subCategoriesIds : [{id : id}],
         } , {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
             },
         })
         .then((res) => {
-            setProducts(res.data.data.Product);
-            id && setProducts(res.data.data.Product?.filter(pro => pro.brand_id == id))
+            setProducts(res.data.data.Product?.filter(pro => pro?.sub_category_id == id))
             console.log(res.data.data.Product)
         })
         .catch((err) => {
@@ -66,6 +64,23 @@ const Products = () => {
         })
         .finally(() => setLoading(false));
   }, [maxPrice , minPrice , catId , subCatId , brand , filters , id]);
+
+  const [gCats, setGCats] = useState()
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "subCategory/" + id, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res.data.data.SubCategory);
+            setGCats(res.data.data.SubCategory);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+  }, [id]);
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#F8FAFC"}>
@@ -75,10 +90,12 @@ const Products = () => {
         </Link>
         <Typography color="text.secondary" variant="breadcrumbs"> المنتجات </Typography>
       </Breadcrumbs>
-      {id && <Brand count={products.length} />}
-      <Grid container mt={12} mb={35}>
-        <Grid item xs={12} sm={5} md={4} lg={3} > 
-          <Filter setCatId={setCatId} setSubCatId={setSubCatId} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} setBrand={setBrand} subId={subCatId} setFilters={setFilters} filters={filters} /> 
+      <Typography variant="h4" mt={12} mb={8}> 
+        {gCats?.title} 
+      </Typography>
+      <Grid container mb={35}>
+        <Grid item xs={12} sm={5} md={4} lg={3}> 
+          <Filter gCats={gCats} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} setBrand={setBrand} subId={subCatId} setFilters={setFilters} filters={filters} /> 
         </Grid>
         <Grid item xs={12} sm={7} md={8} lg={9}>
           {loading ? <Stack alignItems={"center"} pt={24} ><CircularProgress /></Stack> : <ProductsList products={products} />}
@@ -88,41 +105,14 @@ const Products = () => {
   )
 }
 
-const Brand = ({count}) => {
-
-  const {id} = useParams()
-  const [brand, setBrand] = useState()
-  useEffect(() => {
-    id &&
-    axios
-        .get(import.meta.env.VITE_API + "brand/" + id , {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            setBrand(res.data.data.Brand);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-  }, [id]);
-  
-  return (
-    <Stack p={8} mt={12} mb={4} borderRadius={"12px"} bgcolor={"#ECF1F6"} direction={"row"} spacing={8} >
-      <Stack height={120} width={250} p={8} alignItems={"center"} justifyContent={"center"} border={"1px solid"} borderColor={"#D1D8DD"} borderRadius={"8px"} sx={{transition : ".5s" , "&:hover" : {borderColor : "primary.main"}}} > <img src={"https://backend.touchtechco.com/public/" + brand?.image} alt={brand?.title} style={{maxHeight : "100%"}} /> </Stack>
-      <Stack spacing={8} >
-        <Typography variant="h2" color={"#02111D"} > {brand?.title} </Typography>
-        <Typography variant="body" color={"#02111D"} > يمكنك تصفح {count} من منتجات {brand?.title} المختلفة </Typography>
-      </Stack>
-    </Stack>
-  )
-}
-
-const Filter = ({setCatId , setSubCatId , setMaxPrice , setMinPrice , setBrand , subId , setFilters , filters}) => {
+const Filter = ({setMaxPrice , setMinPrice , setBrand , subId , setFilters , filters , gCats}) => {
 
   const [active, setActive] = useState(true)
   const [options, setOptions] = useState([])
+
+  useEffect(() => {
+    setOptions(gCats?.options);
+  } , [gCats , filters])
 
   // Brands
   const [brands, setBrands] = useState([])
@@ -152,7 +142,6 @@ const Filter = ({setCatId , setSubCatId , setMaxPrice , setMinPrice , setBrand ,
       <Stack sx={{overflow : "hidden" , transition : ".5s"}} height={active ? "auto" : "0px"} px={6}>
         <Box >
         {/* minHeight={"300px"} */}
-          <Category setCatId={setCatId} setSubCatId={setSubCatId} setOptions={setOptions} setFilters={setFilters} />
           <Price setMaxPrice={setMaxPrice} setMinPrice={setMinPrice} />
           <Brands setBrand={setBrand} brands={brands} setBrands={setBrands} />
           <Options subId={subId} setFilters={setFilters} filters={filters} options={options} setOptions={setOptions}/>
@@ -206,83 +195,6 @@ const FeaturedBrands = ({brands}) => {
   )
 }
 
-const Category = ({setCatId , setSubCatId , setOptions , setFilters}) => {
-
-  const [gCats, setGCats] = useState([])
-  useEffect(() => {
-    axios
-        .get(import.meta.env.VITE_API + "generalCategory", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            console.log(res.data.data.GeneralCategory);
-            setGCats(res.data.data.GeneralCategory);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-  }, []);
-  
-  const [checked, setChecked] = useState(false)
-  const [catId, setcatId] = useState("")
-  
-  return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}> التصنيفات </AccordionSummary>
-      <AccordionDetails>
-        <FormControl>
-          <RadioGroup>
-            <FormControlLabel value={""} control={<Radio />} label={"الكل"} onChange={e => {
-              setSubCatId("")
-              setChecked(e.target.checked)
-              setcatId("")
-              setCatId("")
-              setSubCatId("")
-              setFilters([])
-              setOptions([])
-            }} />
-            {gCats?.map((gCat , i) => {
-              return (
-                <Fragment key={i}>
-                  <Typography variant="breadcrumbs" color={"text.secondary"} > {gCat.name} </Typography>
-                  {gCat?.categories?.map(cat => {
-                    return (
-                      <Fragment key={cat.id}>
-                        <FormControlLabel value={cat.id} control={<Radio />} label={cat.name} onChange={e => {
-                          setSubCatId("")
-                          setChecked(e.target.checked)
-                          setcatId(cat.id)
-                          setCatId([cat.id])
-                          setFilters([])
-                          setOptions([])
-                        }} />
-                        {(checked && catId == cat.id ) && 
-                        <RadioGroup sx={{pl : 8}}>
-                        {cat?.sub_categories?.map(sub => {
-                          return (
-                            <FormControlLabel key={sub.id} value={sub.id} control={<Radio />} label={sub.title} onChange={() => {
-                              setFilters([])
-                              setOptions([])
-                              setSubCatId([sub.id])
-                            }} />
-                          )
-                        })}
-                        </RadioGroup>}
-                      </Fragment>
-                    )
-                  })}
-                </Fragment>
-              )
-            })}
-          </RadioGroup>
-        </FormControl>
-      </AccordionDetails>
-    </Accordion>
-  )
-}
-
 const Price = ({setMaxPrice , setMinPrice}) => {
   
   const [value, setValue] = useState([0 , 5000]);
@@ -331,11 +243,9 @@ const Price = ({setMaxPrice , setMinPrice}) => {
 }
 
 const Brands = ({setBrand , brands}) => {
-
-  const {id} = useParams()
     
   return (
-    !id&&<Accordion>
+    <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}> العلامات التجارية </AccordionSummary>
       <AccordionDetails>
         <FormControl>
@@ -386,24 +296,7 @@ const ProductsList = ({products}) => {
   )
 }
 
-const Options = ({subId , setFilters , filters , options , setOptions}) => {
-  
-  useEffect(() => {
-    subId &&
-    axios
-        .get(import.meta.env.VITE_API + "subCategory/" + subId, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            setOptions(res.data.data.SubCategory.options);
-            console.log(res.data.data.SubCategory.options);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-  }, [subId , filters]);
+const Options = ({setFilters , filters , options}) => {
   
   return (
     options?.map(option => {
@@ -413,6 +306,9 @@ const Options = ({subId , setFilters , filters , options , setOptions}) => {
           <AccordionDetails>
             <FormControl>
               <RadioGroup>
+                <FormControlLabel value={""} control={<Radio />} label={"الكل"} onClick={() => {
+                  setFilters([])
+                }} />
                 {option.options?.map(cat => {
                   return (
                     <Fragment key={cat}>
@@ -444,4 +340,4 @@ const Options = ({subId , setFilters , filters , options , setOptions}) => {
   )
 }
 
-export default Products
+export default SCats

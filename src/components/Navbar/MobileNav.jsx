@@ -3,13 +3,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../../images/logo.svg"
 import { Link } from "react-router-dom";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
 import axios from "axios";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import LinkIcon from '@mui/icons-material/Link';
+
+
 
 const MobileNav = ({setActiveCart}) => {
 
@@ -32,7 +35,7 @@ const Top = ({setActive , setActiveCart}) => {
   return (
     <Stack py={10} direction={"row"} alignItems={"center"} justifyContent={"space-between"} >
       <MenuIcon sx={{cursor : "pointer" , transition : ".5s" , "&:hover" : {color : "primary.main"}}} onClick={() => setActive(true)} />
-      <img src={logo} alt="" width={80} />
+      <Link to={"/"} ><img src={logo} alt="" width={80} /></Link>
       <Stack direction={"row"} alignContent={"center"} spacing={4} sx={{ "svg" : { maxWidth : "25px" } }} >
         <Link to={isAuthenticated() ? "/profile" : "/login"}>
           <svg
@@ -188,19 +191,23 @@ const Menu = ({active , setActive}) => {
         <Stack mb={16} >
           {items.map((item , i) => {
             return (
-              <Stack key={i} direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle} >
-                <Typography variant="subtitle" > {item.name} </Typography>
-              </Stack>
+              <Link key={i} to={item.link} onClick={() => setActive(false)}>
+                <Stack direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle}>
+                  <Typography variant="subtitle" > {item.name} </Typography>
+                </Stack>
+              </Link>
             )
           })}
           {cats?.map((item , i) => {
-              return <GCategory key={i} item={item} itemStyle={itemStyle} />
+              return <GCategory key={i} item={item} itemStyle={itemStyle} setNav={setActive} />
           })}
           {items2.map((item , i) => {
             return (
-              <Stack key={i} direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle} >
-                <Typography variant="subtitle" > {item.name} </Typography>
-              </Stack>
+              <Link key={i} to={item.link} onClick={() => setActive(false)}>
+                <Stack direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle}>
+                  <Typography variant="subtitle" > {item.name} </Typography>
+                </Stack>
+              </Link>
             )
           })}
         </Stack>
@@ -215,7 +222,7 @@ const Menu = ({active , setActive}) => {
 }
 
 
-const GCategory = ({item , itemStyle}) => {
+const GCategory = ({item , itemStyle , setNav}) => {
 
   const [active, setActive] = useState(false)
   
@@ -223,14 +230,14 @@ const GCategory = ({item , itemStyle}) => {
     <>
       <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
           <Typography variant="button" noWrap >{item.name}</Typography>
-          {/* <KeyboardArrowDownIcon style={{transition : ".5s" , rotate : active ? "180deg" : "0deg"}} /> */}
+          <Link to={"/general-category/" + item?.id} onClick={() => {setNav(false) ; setActive(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
       </Stack>
-      {active && <Category cats={item?.categories} itemStyle={itemStyle} />}
+      {active && <Category cats={item?.categories} itemStyle={itemStyle} setNav={setNav} />}
     </>
   )
 }
 
-const Category = ({cats , itemStyle}) => {
+const Category = ({cats , itemStyle , setNav}) => {
 
   const [active, setActive] = useState(false)
   const [catId, setCatId] = useState("")
@@ -238,27 +245,30 @@ const Category = ({cats , itemStyle}) => {
   return (
       cats?.map((cat , i) => {
         return (
-          <>
-            <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={16} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}
+          <Fragment key={i}>
+            <Stack spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={16} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} justifyContent={"space-between"} pr={4}
             onClick={() => {setActive(!active) ; setCatId(cat.id)}}>
               <Typography variant="button" noWrap display={"flex"} alignItems={"center"} > 
                 <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : "0deg"}} /> {cat.name}
               </Typography>
+              <Link to={"/category/" + cat?.id} onClick={() => {setNav(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
             </Stack>
-            {(active && catId == cat.id && cat?.sub_categories?.length > 0) && <SCategory cats={cat.sub_categories} itemStyle={itemStyle} />}
-          </>
+            {(active && catId == cat.id && cat?.sub_categories?.length > 0) && <SCategory cats={cat.sub_categories} itemStyle={itemStyle} setNav={setNav} />}
+          </Fragment>
         )
       })
   )
 }
 
-const SCategory = ({cats , itemStyle}) => {
+const SCategory = ({cats , itemStyle , setNav}) => {
   return (
       cats?.map((cat , i) => {
         return (
-          <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={32} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}>
-            <Typography variant="button" noWrap >{cat.title}</Typography>
-          </Stack>
+          <Link key={i} to={"/sub-category/" + cat.id} onClick={() => setNav(false)}>
+            <Stack spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={32} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}>
+              <Typography variant="button" noWrap >{cat.title}</Typography>
+            </Stack>
+          </Link>
         )
       })
   )

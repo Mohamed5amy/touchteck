@@ -44,7 +44,7 @@ const Product = () => {
               original : "https://backend.touchtechco.com/public/" + img.url, 
               thumbnail : "https://backend.touchtechco.com/public/" + img.url
             }))
-            setImages(myImages.concat(myImages.concat(myImages)))
+            setImages(myImages)
             console.log(myImages)
         })
         .catch((err) => {
@@ -192,7 +192,6 @@ const Product = () => {
           {/* Quantity */}
           <Stack mt={8} direction={"row"} alignItems={"center"} spacing={{xs : 2 , sm : 10}} mb={16} >
             <Button variant="contained" sx={{py : 8 , borderRadius: "8px" , flex : 1}} onClick={() => handleAddToCart()} startIcon={<ShoppingCartRoundedIcon sx={{ display : {xs : "none" , sm  :"block"} }} />} disabled={loading}> اضافة لعربة التسوق </Button>
-            
             <IconButton size="large" className={checkFav ? "active" : ""} sx={{color : "#9EA7B8" , "&:hover , &.active" : {color : "red"}}} color="error" onClick={() => addToFav()}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"

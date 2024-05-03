@@ -103,7 +103,7 @@ const GCategory = ({item , itemStyle}) => {
   
   return (
     <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} color={"#434E58"} sx={itemStyle} position={"relative"} onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)} >
-      <Link to={"/category/" + item.id} >
+      <Link to={"/general-category/" + item.id} >
         <Typography variant="button" color={"text.secondary"} noWrap >{item.name}</Typography>
       </Link>
       {active && <Category cats={item?.categories} />}
@@ -120,11 +120,15 @@ const Category = ({cats}) => {
     <Stack bgcolor={"text.light"} position={"absolute"} top={"99%"} left={"-50px"} width={"300px"} zIndex={10} py={4}>
       {cats?.map((cat , i) => {
         return (
-          <Stack key={i} direction={"row"} alignItems={"center"} justifyContent={"space-between"} position={"relative"}
+          <Stack key={i} position={"relative"}
           sx={{transition : ".5s" , "&:hover" : {color : "primary.secondary"}}} color={"text.secondary"} px={8} py={4}
           onMouseEnter={() => {setActive(true) ; setCatId(cat.id)}} onMouseLeave={() => setActive(false)}>
-            <Typography fontSize={16} fontWeight={500}> {cat.name} </Typography>
-            {cat?.sub_categories?.length ? <ArrowBackIosIcon fontSize="small" /> : null}
+            <Link to={"/category/" + cat.id} >
+              <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+                <Typography fontSize={16} fontWeight={500}> {cat.name} </Typography>
+                {cat?.sub_categories?.length ? <ArrowBackIosIcon fontSize="small" /> : null}
+              </Stack>
+            </Link>
             {(active && catId == cat.id && cat?.sub_categories?.length > 0) && <SCategory cats={cat.sub_categories} />}
           </Stack>
         )
@@ -139,8 +143,10 @@ const SCategory = ({cats}) => {
       {cats?.map((cat , i) => {
         return (
           <Stack key={i} direction={"row"} alignItems={"center"} justifyContent={"space-between"}
-          sx={{transition : ".5s" , "&:hover" : {color : "primary.secondary"}}} color={"text.secondary"}>
-            <Typography fontSize={16} fontWeight={500}> {cat.title} </Typography>
+          x={{transition : ".5s" , "&:hover" : {color : "primary.secondary"}}} color={"text.secondary"}>
+            <Link to={"/sub-category/" + cat.id}>
+              <Typography fontSize={16} fontWeight={500}> {cat.title} </Typography>
+            </Link>
           </Stack>
         )
       })}

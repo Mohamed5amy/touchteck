@@ -34,6 +34,9 @@ import EditAddress from "./pages/EditAddress/EditAddress";
 import Success from "./pages/Success/Success";
 import Order from "./pages/Orders/Order";
 import Contact from "./pages/Contact/Contact";
+import GCats from "./pages/Products/GCats";
+import Cats from "./pages/Products/Cats";
+import SCats from "./pages/Products/SCat";
 
 
 function App() {
@@ -168,7 +171,9 @@ const MyApp = () => {
         <Route path="/wishlist" element={ <WishList /> } />
         <Route path="/brands" element={ <Brands /> } />
         <Route path="/brands/:id" element={ <Products /> } />
-        <Route path="/category/:id2" element={ <Products /> } />
+        <Route path="/general-category/:id" element={ <GCats /> } />
+        <Route path="/category/:id" element={ <Cats /> } />
+        <Route path="/sub-category/:id" element={ <SCats /> } />
         <Route path="/cart" element={ <Cart /> } />
         <Route path="/check" element={ <Check /> } />
         <Route path="/about" element={ <About /> } />

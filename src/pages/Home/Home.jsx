@@ -115,8 +115,6 @@ const Home = () => {
       <Partners />
       {/* Features */}
       <Features />
-      {/* Subscribe */}
-      <Subscribe />
     </Stack> : 
     <Stack position={"fixed"} top={0} left={0} alignItems={"center"} justifyContent={"center"} width={"100%"} height={"100vh"} bgcolor={"white"} zIndex={1000}>
       <img src={logo} alt="logo" width={300} />
@@ -183,7 +181,7 @@ const Cats = () => {
           return (
             <SwiperSlide key={cat.id} >
               <Link to={cat.id}>
-                <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={20} p={12} fontWeight={800}
+                <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={20} p={12} fontWeight={800} textAlign={"center"}
                 sx={{transition : ".5s" , "&:hover" : {color : "primary.main" , borderColor : "primary.main"}}}> {cat.name} </Stack>
               </Link>
             </SwiperSlide>
@@ -399,7 +397,7 @@ const Partners = () => {
 const Features = () => {
   
   return (
-    <Stack pt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} direction={{xs : "column" , md : "row"}} spacing={{xs : 20 , lg : 40}} justifyContent={"center"} >
+    <Stack py={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} direction={{xs : "column" , md : "row"}} spacing={{xs : 20 , lg : 40}} justifyContent={"center"} >
       <Box textAlign={"center"} flex={1} >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -507,21 +505,21 @@ const Features = () => {
   )
 }
 
-const Subscribe = () => {
+// const Subscribe = () => {
   
-  return (
-    <Stack pt={60}>
-      <Stack height={440} position={"relative"} alignItems={"center"} justifyContent={"center"} textAlign={"center"} px={20}>
-        <Stack position={"absolute"} left={0} top={0} width={"100%"} height={"101%"} zIndex={-1}> <img src={subscribe} alt="" height={"100%"} style={{objectFit : "cover" , objectPosition : "top"}} /> </Stack>
-        <Typography fontSize={{xs : 26 , sm : 45}} lineHeight={"140%"} fontWeight={700} mb={{xs : 4 , sm : 12}} color={"white"}> اشترك الآن للحصول على أفضل الخدمات لدينا </Typography>
-        <Typography fontSize={{xs : 12 , sm : 16}} lineHeight={"140%"} fontWeight={500} maxWidth={530} mb={{xs : 8 , sm : 12}} color={"white"}> ننصحك بالاشتراك في صحيفتنا، أدخل بريدك الإلكتروني أدناه للحصول على تحديثنا اليومي عنا.  </Typography>
-        <div className="newsletter">
-          <input type="email" placeholder="أدخل عنوان بريدك الالكتروني" />
-          <button>اشترك الان</button>
-        </div>
-      </Stack>
-    </Stack>
-  )
-}
+//   return (
+//     <Stack pt={60}>
+//       <Stack height={440} position={"relative"} alignItems={"center"} justifyContent={"center"} textAlign={"center"} px={20}>
+//         <Stack position={"absolute"} left={0} top={0} width={"100%"} height={"101%"} zIndex={-1}> <img src={subscribe} alt="" height={"100%"} style={{objectFit : "cover" , objectPosition : "top"}} /> </Stack>
+//         <Typography fontSize={{xs : 26 , sm : 45}} lineHeight={"140%"} fontWeight={700} mb={{xs : 4 , sm : 12}} color={"white"}> اشترك الآن للحصول على أفضل الخدمات لدينا </Typography>
+//         <Typography fontSize={{xs : 12 , sm : 16}} lineHeight={"140%"} fontWeight={500} maxWidth={530} mb={{xs : 8 , sm : 12}} color={"white"}> ننصحك بالاشتراك في صحيفتنا، أدخل بريدك الإلكتروني أدناه للحصول على تحديثنا اليومي عنا.  </Typography>
+//         <div className="newsletter">
+//           <input type="email" placeholder="أدخل عنوان بريدك الالكتروني" />
+//           <button>اشترك الان</button>
+//         </div>
+//       </Stack>
+//     </Stack>
+//   )
+// }
 
 export default Home
