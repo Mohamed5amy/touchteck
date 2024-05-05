@@ -3,18 +3,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../../images/logo.svg"
 import { Link } from "react-router-dom";
 import ClearIcon from '@mui/icons-material/Clear';
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
-import axios from "axios";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import LinkIcon from '@mui/icons-material/Link';
 
 
 
-const MobileNav = ({setActiveCart}) => {
+const MobileNav = ({setActiveCart , cats}) => {
 
   const [active, setActive] = useState(false)
   
@@ -22,7 +20,7 @@ const MobileNav = ({setActiveCart}) => {
     <Stack position={"relative"} pb={8} >
       <Top setActive={setActive} setActiveCart={setActiveCart} />
       <Search />
-      <Menu active={active} setActive={setActive} />
+      <Menu active={active} setActive={setActive} cats={cats} />
     </Stack>
   )
 }
@@ -114,7 +112,7 @@ const Top = ({setActive , setActiveCart}) => {
   )
 }
 
-const Menu = ({active , setActive}) => {
+const Menu = ({active , setActive , cats}) => {
 
   const items = [
     {
@@ -141,24 +139,6 @@ const Menu = ({active , setActive}) => {
       link : "/contact",
     },
   ]
-
-  const [cats, setCats] = useState([])
-
-  useEffect(() => {
-    axios
-        .get(import.meta.env.VITE_API + "generalCategory", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            setCats(res.data.data.GeneralCategory);
-            console.log(res.data.data.GeneralCategory);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-  }, []);
 
   const itemStyle = {
     transition : ".5s",
@@ -220,7 +200,6 @@ const Menu = ({active , setActive}) => {
     </Stack>
   )
 }
-
 
 const GCategory = ({item , itemStyle , setNav}) => {
 

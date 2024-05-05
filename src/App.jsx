@@ -38,7 +38,6 @@ import GCats from "./pages/Products/GCats";
 import Cats from "./pages/Products/Cats";
 import SCats from "./pages/Products/SCat";
 
-
 function App() {
 
   const cacheRtl = createCache({
@@ -164,37 +163,37 @@ const MyApp = () => {
   return (
     <BrowserRouter>
       <Navbar/>
-      <Routes>
-        <Route path="/" element={ <Home /> } />
-        <Route path="/products" element={ <Products /> } />
-        <Route path="/products/:id" element={ <Product /> } />
-        <Route path="/wishlist" element={ <WishList /> } />
-        <Route path="/brands" element={ <Brands /> } />
-        <Route path="/brands/:id" element={ <Products /> } />
-        <Route path="/general-category/:id" element={ <GCats /> } />
-        <Route path="/category/:id" element={ <Cats /> } />
-        <Route path="/sub-category/:id" element={ <SCats /> } />
-        <Route path="/cart" element={ <Cart /> } />
-        <Route path="/check" element={ <Check /> } />
-        <Route path="/about" element={ <About /> } />
-        <Route path="/profile" element={ <Profile /> } />
-        <Route path="/address/edit/:id" element={ <EditAddress /> } />
-        <Route path="/address/add" element={ <AddAddress /> } />
-        <Route path="/address" element={ <Address /> } />
-        <Route path="/orders" element={ <Orders /> } />
-        <Route path="/orders/:id" element={ <Order /> } />
-        <Route path="/success" element={ <Success /> } />
-        <Route path="/settings" element={ <Settings /> } />
-        <Route path="/contact" element={ <Contact /> } />
-        {/* Login */}
-        <Route path="/login" element={ <Login /> } />
-        <Route path="/forget-password" element={ <ForgetPass /> } />
-        <Route path="/forget-password/otp" element={ <OTP /> } />
-        <Route path="/forget-password/new-password" element={ <NewPass /> } />
-        {/* Register */}
-        <Route path="/sign-up" element={ <Register /> } />
-        <Route path="/sign-up/otp" element={ <ROTP /> } />
-      </Routes>
+        <Routes>
+          <Route path="/" element={ <Home /> } />
+          <Route path="/products" element={ <Products /> } />
+          <Route path="/products/:id" element={ <Product /> } />
+          <Route path="/wishlist" element={ <WishList /> } />
+          <Route path="/brands" element={ <Brands /> } />
+          <Route path="/brands/:id" element={ <Products /> } />
+          <Route path="/general-category/:id" element={ <GCats /> } />
+          <Route path="/category/:id" element={ <Cats /> } />
+          <Route path="/sub-category/:id" element={ <SCats /> } />
+          <Route path="/cart" element={ <Cart /> } />
+          <Route path="/check" element={ <Check /> } />
+          <Route path="/about" element={ <About /> } />
+          <Route path="/profile" element={ <Profile /> } />
+          <Route path="/address/edit/:id" element={ <EditAddress /> } />
+          <Route path="/address/add" element={ <AddAddress /> } />
+          <Route path="/address" element={ <Address /> } />
+          <Route path="/orders" element={ <Orders /> } />
+          <Route path="/orders/:id" element={ <Order /> } />
+          <Route path="/success" element={ <Success /> } />
+          <Route path="/settings" element={ <Settings /> } />
+          <Route path="/contact" element={ <Contact /> } />
+          {/* Login */}
+          <Route path="/login" element={ <Login /> } />
+          <Route path="/forget-password" element={ <ForgetPass /> } />
+          <Route path="/forget-password/otp" element={ <OTP /> } />
+          <Route path="/forget-password/new-password" element={ <NewPass /> } />
+          {/* Register */}
+          <Route path="/sign-up" element={ <Register /> } />
+          <Route path="/sign-up/otp" element={ <ROTP /> } />
+        </Routes>
       <Footer/>
     </BrowserRouter>
   )

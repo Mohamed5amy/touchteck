@@ -1,13 +1,12 @@
 import { Stack, Typography } from "@mui/material";
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
 
-const Bottom = () => {
+const Bottom = ({cats}) => {
 
   const itemStyle = {
     transition : ".5s",
@@ -51,23 +50,6 @@ const Bottom = () => {
       link : "/contact",
     },
   ]
-
-  const [cats, setCats] = useState([])
-  useEffect(() => {
-    axios
-        .get(import.meta.env.VITE_API + "generalCategory", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            setCats(res.data.data.GeneralCategory);
-            console.log(res.data.data.GeneralCategory);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-  }, []);
   
   return (
     <Stack direction={"row"} alignItems={"end"} spacing={2} position={"relative"} display={{xs : "none" , md : "flex"}}
