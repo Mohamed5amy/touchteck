@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useLang from "../../hooks/useLang";
 
 
 const Profile = () => {
@@ -50,28 +51,30 @@ const Profile = () => {
             setLoading(false);
         });
   };
+
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37} >
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" to="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> الملف الشخصي </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Prodile" :"الملف الشخصي "}</Typography>
       </Breadcrumbs>
       <Grid container spacing={16}>
         <Grid item xs={12} sm={4} md={3} >
           <Sidebar />
         </Grid>
         <Grid item xs={12} sm={8} md={9} >
-          <Typography variant="h3" color={"#13131B"} mb={8} > البيانات الشخصية </Typography>
+          <Typography variant="h3" color={"#13131B"} mb={8} > {isEn ? "Profile" :"البيانات الشخصية"} </Typography>
           <Box bgcolor={"#fff"} border={"1px solid #E3E9ED"} borderRadius={"8px"} p={12} pb={20} >
             <Grid container spacing={12}>
               <Grid item xs={12} md={6}>
                 <Input
                     required={true}
                     type={"text"}
-                    label={"الاسم"}
+                    label={isEn ? "Name" :"الاسم"}
                     defaultValue={user?.name}
                     register={register}
                     registerName="name"
@@ -85,7 +88,7 @@ const Profile = () => {
                 <Input
                   required={true}
                   type={"number"}
-                  label={"رقم الجوال"}
+                  label={isEn ? "Phone Number" :"رقم الجوال"}
                   register={register}
                   registerName="mobile"
                   defaultValue={user?.mobile}
@@ -98,7 +101,7 @@ const Profile = () => {
               <Grid item xs={12} md={6}>
                 <Input
                   required={true}
-                  type={"email"}
+                  type={isEn ? "Email" :"email"}
                   label={"الايميل"}
                   register={register}
                   defaultValue={user?.email}
@@ -114,7 +117,8 @@ const Profile = () => {
         </Grid>
       </Grid>
       <Stack justifyContent={"end"} direction={"row"} mt={20} spacing={8} >
-        <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "تحديث البيانات"} </Button>
+        {isEn ?<Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "Update Data"} </Button> :
+        <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "تحديث البيانات"} </Button>}
       </Stack>
       <ToastContainer position="bottom-right" />
     </Stack>

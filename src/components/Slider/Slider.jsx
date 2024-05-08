@@ -25,7 +25,7 @@ const Slider = ({slides}) => {
           return (
             <SwiperSlide key={i}>
               <a href={slide.title} target='_blank' rel="noreferrer">
-                <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
+                <Stack width={"100%"} height={"100%"}>
                   <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"100%"} style={{objectFit : "fill"}} />
                 </Stack>
               </a>

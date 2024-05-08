@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
+import useLang from "../../hooks/useLang";
 
 
 const EditAddress = () => {
@@ -51,28 +52,30 @@ const EditAddress = () => {
             setLoading(false);
         });
   };
+
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37} >
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" to="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+        <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> العناوين </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Addresses" :"العناوين"} </Typography>
       </Breadcrumbs>
       <Grid container spacing={16}>
         <Grid item xs={12} sm={4} md={3} >
           <Sidebar />
         </Grid>
         <Grid item xs={12} sm={8} md={9} >
-          <Typography variant="h3" color={"#13131B"} mb={8} > اضافة عنوان </Typography>
+          <Typography variant="h3" color={"#13131B"} mb={8} > {isEn ? "Edit Address" :"تعديل عنوان"}</Typography>
           <Box bgcolor={"#fff"} border={"1px solid #E3E9ED"} borderRadius={"8px"} p={12} pb={20} >
             <Grid container spacing={12} mb={12}>
               <Grid item xs={12} md={6}>
                 <Input
                     required={true}
                     type={"text"}
-                    label={"الاسم الاول"}
+                    label={isEn ? "First Name" :"الاسم الاول"}
                     register={register}
                     registerName="first_name"
                     defaultValue={address?.first_name}
@@ -86,7 +89,7 @@ const EditAddress = () => {
                 <Input
                     required={true}
                     type={"text"}
-                    label={"اسم العائلة"}
+                    label={isEn ? "Last Name" :"اسم العائلة"}
                     register={register}
                     registerName="last_name"
                     defaultValue={address?.last_name}
@@ -100,7 +103,7 @@ const EditAddress = () => {
                 <Input
                   required={true}
                   type={"number"}
-                  label={"رقم الجوال"}
+                  label={isEn ? "Phone Number" :"رقم الجوال"}
                   register={register}
                   registerName="mobile"
                   defaultValue={address?.mobile}
@@ -114,7 +117,7 @@ const EditAddress = () => {
                 <Input
                     required={true}
                     type={"text"}
-                    label={"اختصار العنوان"}
+                    label={isEn ? "Address Label" :"اختصار العنوان"}
                     register={register}
                     registerName="label"
                     defaultValue={address?.label}
@@ -128,7 +131,7 @@ const EditAddress = () => {
             <Input
                 required={true}
                 type={"text"}
-                label={"العنوان بالتفصيل"}
+                label={isEn ? "Detailed Address" :"العنوان بالتفصيل"}
                 register={register}
                 registerName="address"
                 defaultValue={address?.address}
@@ -142,7 +145,8 @@ const EditAddress = () => {
         </Grid>
       </Grid>
       <Stack justifyContent={"end"} direction={"row"} mt={20} spacing={8} >
-        <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "تعديل"} </Button>
+      {isEn ? <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "Save"} </Button> :
+        <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}} onClick={handleSubmit(onSubmit)} disabled={loading} > {loading ? <CircularProgress /> : "حفظ"} </Button>}
       </Stack>
     </Stack>
   )

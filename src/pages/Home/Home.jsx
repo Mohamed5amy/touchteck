@@ -19,6 +19,7 @@ import { Pagination , Autoplay } from 'swiper/modules';
 import ReactPlayer from 'react-player/youtube'
 import { FloatingWhatsApp } from 'react-floating-whatsapp'
 import logoWhats from "../../images/logo.png"
+import useLang from "../../hooks/useLang";
 
 
 
@@ -32,8 +33,7 @@ const Home = () => {
   const [slides, setSlides] = useState([])
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-
-
+  
   // Products
   useEffect(() => {
     axios
@@ -90,6 +90,8 @@ const Home = () => {
     window.scrollTo(0, 0);
   } , [])
 
+  const isEn = useLang()
+
   return (
     !loading ?
     <Stack>
@@ -124,7 +126,9 @@ const Home = () => {
     </Stack> : 
     <Stack position={"fixed"} top={0} left={0} alignItems={"center"} justifyContent={"center"} width={"100%"} height={"100vh"} bgcolor={"white"} zIndex={1000}>
       <img src={logo} alt="logo" width={300} />
-      <Typography fontWeight={600} fontSize={18} mt={4} color={"primary"} > من فضلك انتظر قليلا يتم التحميل... </Typography>
+      <Typography fontWeight={600} fontSize={18} mt={4} color={"primary"}>
+      {isEn ? "Loading, Please Wait..." : " من فضلك انتظر قليلا يتم التحميل..."}
+      </Typography>
     </Stack>
   )
 }
@@ -149,15 +153,16 @@ const Cats = () => {
   }, []);
 
   const swiperRef = useRef();
+  const isEn = useLang()
   
   return (
     <Stack pt={40} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
-      <Header title="التصنيفات" />
+      <Header title={isEn ? "Categories" : "التصنيفات"} />
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={16} >
-        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > تصفح عن طريق التصنيف </Typography>
-        <Stack direction={"row"} spacing={2}>
-          <IconButton color="primary" onClick={() => swiperRef.current.slidePrev()}> <ArrowForwardIcon /> </IconButton>
-          <IconButton color="primary" onClick={() => swiperRef.current.slideNext()} className="next" > <ArrowBackIcon /> </IconButton>
+        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} >{isEn ? "Browse By Category" : "تصفح عن طريق التصنيف "}</Typography>
+        <Stack direction={isEn ? "row-reverse" : "row"} spacing={2}>
+          <IconButton color="primary" onClick={() => isEn ? swiperRef.current.slideNext() : swiperRef.current.slidePrev()}> <ArrowForwardIcon /> </IconButton>
+          <IconButton color="primary" onClick={() => !isEn ? swiperRef.current.slideNext() : swiperRef.current.slidePrev()} className="next" > <ArrowBackIcon /> </IconButton>
         </Stack>
       </Stack>
       <Swiper
@@ -188,7 +193,8 @@ const Cats = () => {
             <SwiperSlide key={cat.id} >
               <Link to={cat.id}>
                 <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={20} p={12} fontWeight={800} textAlign={"center"}
-                sx={{transition : ".5s" , "&:hover" : {color : "primary.main" , borderColor : "primary.main"}}}> {cat.name} </Stack>
+                sx={{transition : ".5s" , "&:hover" : {color : "primary.main" , borderColor : "primary.main"}}}> 
+                {isEn ? cat.name : cat.name_ar} </Stack>
               </Link>
             </SwiperSlide>
           )
@@ -265,7 +271,7 @@ const ThickSlider = () => {
   
   return (
     <Stack pt={{xs : 10 , sm : 40}} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
-      <Stack position={"relative"} width={"100%"} height={{xs : "50px" , md : "100px"}}>
+      <Stack position={"relative"} width={"100%"} height={{xs : "70px" , md : "100px"}}>
         <Swiper
           pagination={{clickable : true}} 
           modules={[Autoplay]} 
@@ -281,7 +287,7 @@ const ThickSlider = () => {
             return (
               <SwiperSlide key={i}>
                 <a href={slide.title} target='_blank' rel="noreferrer">
-                  <Stack width={"100%"} height={{xs : "200px" , md : "525px"}}>
+                  <Stack width={"100%"} height={"100%"}>
                     <img src={import.meta.env.VITE_LINK + slide.image} alt="slider image" width={"100%"} height={"100px"} style={{objectFit : "fill"}} />
                   </Stack>
                 </a>
@@ -296,12 +302,14 @@ const ThickSlider = () => {
 
 const Products = ({products}) => {
   
+  const isEn = useLang()
+  
   return (
     <Stack px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} pt={30} >
-      <Header title={"منتجاتنا"} />
+      <Header title={isEn ? "Products" : "منتجاتنا"} />
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={16} >
-        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > اكتشف منتجاتنا </Typography>
-        <Link to={"/products"} ><Button endIcon={<NavigateBeforeRounded />} > تصفح الكل </Button></Link>
+        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > {isEn ? "Explore Our Products" : "اكتشف منتجاتنا"} </Typography>
+        <Link to={"/products"} ><Button endIcon={<NavigateBeforeRounded sx={{ rotate : isEn ? "180deg" : "0deg" }} />} > {isEn ? "View All" : "تصفح الكل "} </Button></Link>
       </Stack>
       <Grid container spacing={15} >
         {products?.slice(0 , 4).map((product) => {
@@ -318,12 +326,14 @@ const Products = ({products}) => {
 
 const Best = ({products}) => {
   
+  const isEn = useLang()
+  
   return (
     <Stack px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} pt={60} >
-      <Header title={"هذا الشهر"} />
+      <Header title={isEn ? "This Month" : "هذا الشهر"} />
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={16} >
-        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > أفضل المنتجات مبيعا </Typography>
-        <Link to={"/products"} ><Button endIcon={<NavigateBeforeRounded />} > تصفح الكل </Button></Link>
+        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > {isEn ? "Best Selling Products" : "افضل المنتجات مبيعا "} </Typography>
+        <Link to={"/products"} ><Button endIcon={<NavigateBeforeRounded sx={{ rotate : isEn ? "180deg" : "0deg" }} />} > {isEn ? "View All" : "تصفح الكل "} </Button></Link>
       </Stack>
       <Grid container spacing={15} >
       {products?.slice(0 , 4).map((product) => {
@@ -358,17 +368,24 @@ const Partners = () => {
         })
   }, []);
   
+  const isEn = useLang()
+  
   return (
     <Stack pt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }}>
-      <Header title="العلامات التجارية" />
+      <Header title={isEn ? "Brands" :"العلامات التجارية"} />
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} mb={16} >
-        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > علاماتنا التجارية </Typography>
-        <Link to={"/brands"} ><Button endIcon={<NavigateBeforeRounded />} > تصفح الكل </Button></Link>
+        <Typography color={"#02111D"} fontSize={{xs : 20 , sm : 32}} fontWeight={600} > {isEn ? "Our Brands" :"علاماتنا التجارية"} </Typography>
+        <Link to={"/brands"} ><Button endIcon={<NavigateBeforeRounded sx={{ rotate : isEn ? "180deg" : "0deg" }} />} > {isEn ? "View All" : "تصفح الكل "} </Button></Link>
       </Stack>
       <Swiper
         slidesPerView={4.5}
         spaceBetween={24}
-        loop
+        modules={[Autoplay]} 
+        autoplay={{
+          delay: 1500,
+          disableOnInteraction: false,
+        }}
+        speed={1500}
         className="mySwiper"
         style={{width : "100%"}}
         breakpoints={{
@@ -401,7 +418,7 @@ const Partners = () => {
 }
 
 const Features = () => {
-  
+  const isEn = useLang()
   return (
     <Stack py={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} direction={{xs : "column" , md : "row"}} spacing={{xs : 20 , lg : 40}} justifyContent={"center"} >
       <Box textAlign={"center"} flex={1} >
@@ -439,8 +456,12 @@ const Features = () => {
             </clipPath>
           </defs>
         </svg>
-        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} > توصيل مجاني وسريع </Typography>
-        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"}  > التوصيل مجاني لجميع الطلبات التي تزيد قيمتها عن 140 دولارًا </Typography>
+        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} > 
+        {isEn ? "FREE AND FAST DELIVERY" :"توصيل مجاني وسريع "}
+        </Typography>
+        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"}  >
+          {isEn ? "Free delivery for all orders over $140" :"التوصيل مجاني لجميع الطلبات التي تزيد قيمتها عن 140 دولارًا "}
+        </Typography>
       </Box>
       <Box textAlign={"center"} flex={1} >
         <svg
@@ -476,8 +497,12 @@ const Features = () => {
             </clipPath>
           </defs>
         </svg>
-        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} > خدمة العملاء 24/7 </Typography>
-        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"}> دعم عملاء ودود على مدار 24 ساعة طوال أيام الأسبوع </Typography>
+        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} >
+          {isEn ? "24/7 CUSTOMER SERVICE" : "خدمة العملاء 24/7 "}
+        </Typography>
+        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"}>
+          {isEn ? "Friendly 24/7 customer support" :"دعم عملاء ودود على مدار 24 ساعة طوال أيام الأسبوع "}
+        </Typography>
       </Box>
       <Box textAlign={"center"} flex={1} >
         <svg
@@ -504,8 +529,12 @@ const Features = () => {
             d="M37.913 41.054l.354.353.353-.353 6.284-6.284a.757.757 0 011.059 0 .757.757 0 010 1.06l-7.167 7.166a.736.736 0 01-.53.22.736.736 0 01-.53-.22l-2.682-2.683a.757.757 0 010-1.06.757.757 0 011.059 0l1.8 1.8z"
           ></path>
         </svg>
-        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} > ضمان استعادة الاموال </Typography>
-        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"}  > نقوم بإرجاع الأموال خلال 30 يومًا </Typography>
+        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} >
+          {isEn ? "MONEY BACK GUARANTEE" : "ضمان استعادة الاموال"}
+        </Typography>
+        <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"} > 
+        {isEn ? "We reurn money within 30 days" :"نقوم بإرجاع الأموال خلال 30 يومًا "}
+        </Typography>
       </Box>
     </Stack>
   )

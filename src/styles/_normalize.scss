@@ -16,6 +16,10 @@ body {
   overflow-x: hidden;
   direction: rtl;
   font-size: 105%;
+
+  &.english {
+    direction: ltr;
+  }
 }
 
 a {

@@ -1,7 +1,8 @@
-import { Breadcrumbs, Grid, Stack, Typography } from "@mui/material";
+import { Breadcrumbs, CircularProgress, Grid, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useLang from "../../hooks/useLang";
 
 
 
@@ -9,8 +10,10 @@ import axios from "axios";
 const Brands = () => {
 
   const [brands, setBrands] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     axios
         .get(import.meta.env.VITE_API + "brand", {
             headers: {
@@ -23,21 +26,23 @@ const Brands = () => {
         })
         .catch((err) => {
             console.log(err);
-        })
+        }).finally(() => setLoading(false))
   }, []);
+
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#F8FAFC"} >
       <Breadcrumbs separator=">">
         <Link underline="hover" to="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> العلامات التجارية </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Brands" :"العلامات التجارية"} </Typography>
       </Breadcrumbs>
       {/* All */}
       <Stack pt={20} pb={37} >
-        <Typography color={"#02111D"} variant="h2" mb={16} > علاماتنا التجارية </Typography>
-        <Grid container spacing={12} >
+        <Typography color={"#02111D"} variant="h2" mb={16} > {isEn ? "Our Brands" :"علاماتنا التجارية "} </Typography>
+        {loading ? <Stack alignItems={"center"} py={24} ><CircularProgress /></Stack> : <Grid container spacing={12} >
           {brands?.map((brand , i) => {
             return (
               <Grid item xs={6} sm={4} md={3} key={i}>
@@ -47,7 +52,7 @@ const Brands = () => {
               </Grid>
             )
           })}
-        </Grid>
+        </Grid>}
       </Stack>
     </Stack>
   )

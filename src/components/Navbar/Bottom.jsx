@@ -3,6 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import useLang from "../../hooks/useLang";
 
 
 
@@ -28,10 +29,12 @@ const Bottom = ({cats}) => {
   const items = [
     {
       name : "الرئيسة",
+      Ename : "Home",
       link : "/",
     },
     {
       name : "من نحن",
+      Ename : "About",
       link : "/about",
     },
   ]
@@ -39,17 +42,22 @@ const Bottom = ({cats}) => {
   const items2 = [
     {
       name : "منتجاتنا",
+      Ename : "Products",
       link : "/products",
     },
     {
       name : "علاماتنا التجارية",
+      Ename : "Brands",
       link : "/brands",
     },
     {
       name : "تواصل معنا",
+      Ename : "Contact",
       link : "/contact",
     },
   ]
+
+  const isEn = useLang()
   
   return (
     <Stack direction={"row"} alignItems={"end"} spacing={2} position={"relative"} display={{xs : "none" , md : "flex"}}
@@ -58,7 +66,7 @@ const Bottom = ({cats}) => {
         return (
           <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} color={"#434E58"} sx={itemStyle}>
             <Link to={item.link} >
-              <Typography variant="button" color={"text.secondary"} noWrap >{item.name}</Typography>
+              <Typography variant="button" color={"text.secondary"} noWrap >{isEn ? item.Ename : item.name}</Typography>
             </Link>
           </Stack>
         )
@@ -70,7 +78,7 @@ const Bottom = ({cats}) => {
         return (
           <Stack key={i} spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} color={"#434E58"} sx={itemStyle}>
             <Link to={item.link} >
-              <Typography variant="button" color={"text.secondary"} noWrap >{item.name}</Typography>
+              <Typography variant="button" color={"text.secondary"} noWrap >{isEn ? item.Ename : item.name}</Typography>
             </Link>
           </Stack>
         )
@@ -82,11 +90,12 @@ const Bottom = ({cats}) => {
 const GCategory = ({item , itemStyle}) => {
 
   const [active, setActive] = useState(false)
-  
+  const isEn = useLang()
+
   return (
     <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} color={"#434E58"} sx={itemStyle} position={"relative"} onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)} >
       <Link to={"/general-category/" + item.id} >
-        <Typography variant="button" color={"text.secondary"} noWrap >{item.name}</Typography>
+        <Typography variant="button" color={"text.secondary"} noWrap >{isEn ? item.name : item.name_ar }</Typography>
       </Link>
       {active && <Category cats={item?.categories} />}
     </Stack>
@@ -97,6 +106,7 @@ const Category = ({cats}) => {
 
   const [active, setActive] = useState(false)
   const [catId, setCatId] = useState("")
+  const isEn = useLang()
   
   return (
     <Stack bgcolor={"text.light"} position={"absolute"} top={"99%"} left={"-50px"} width={"300px"} zIndex={10} py={4}>
@@ -107,8 +117,8 @@ const Category = ({cats}) => {
           onMouseEnter={() => {setActive(true) ; setCatId(cat.id)}} onMouseLeave={() => setActive(false)}>
             <Link to={"/category/" + cat.id} >
               <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
-                <Typography fontSize={16} fontWeight={500}> {cat.name} </Typography>
-                {cat?.sub_categories?.length ? <ArrowBackIosIcon fontSize="small" /> : null}
+                <Typography fontSize={16} fontWeight={500}> {isEn ? cat.name : cat.name_ar } </Typography>
+                {cat?.sub_categories?.length ? <ArrowBackIosIcon fontSize="small" sx={{rotate : isEn ? "180deg" : "0deg"}} /> : null}
               </Stack>
             </Link>
             {(active && catId == cat.id && cat?.sub_categories?.length > 0) && <SCategory cats={cat.sub_categories} />}
@@ -120,6 +130,9 @@ const Category = ({cats}) => {
 }
 
 const SCategory = ({cats}) => {
+
+  const isEn = useLang()
+  
   return (
     <Stack bgcolor={"primary.whiteBg"} position={"absolute"} top={"-8px"} left={"300px"} width={"300px"} zIndex={10} spacing={8} p={8}>
       {cats?.map((cat , i) => {
@@ -127,7 +140,7 @@ const SCategory = ({cats}) => {
           <Stack key={i} direction={"row"} alignItems={"center"} justifyContent={"space-between"}
           x={{transition : ".5s" , "&:hover" : {color : "primary.secondary"}}} color={"text.secondary"}>
             <Link to={"/sub-category/" + cat.id}>
-              <Typography fontSize={16} fontWeight={500}> {cat.title} </Typography>
+              <Typography fontSize={16} fontWeight={500}> {isEn ? cat.title : cat.title_ar} </Typography>
             </Link>
           </Stack>
         )

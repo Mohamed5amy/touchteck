@@ -37,8 +37,11 @@ import Contact from "./pages/Contact/Contact";
 import GCats from "./pages/Products/GCats";
 import Cats from "./pages/Products/Cats";
 import SCats from "./pages/Products/SCat";
+import useLang from "./hooks/useLang";
 
 function App() {
+
+  const isEn = useLang()
 
   const cacheRtl = createCache({
     key: 'muirtl',
@@ -46,7 +49,7 @@ function App() {
   });
 
   const theme = createTheme({
-    direction : "rtl",
+    direction : isEn ? "ltr" : "rtl",
     palette : {
       primary : {
         main : "#0A5C99",
@@ -71,7 +74,7 @@ function App() {
     },
 
     typography : {
-      fontFamily : '"Cairo", sans-serif',
+      fontFamily : isEn ? '"Poppins", sans-serif' : '"Cairo", sans-serif',
       h1 : {
         fontSize : "64px",
         fontWeight : "600",
@@ -147,13 +150,14 @@ function App() {
       cookieDomain={window.location.hostname}
       // cookieSecure={window.location.protocol === "https:"}
     >
-      <CacheProvider value={cacheRtl} >
-        <ThemeProvider theme={theme}>
-          <Provider store={store} >
+      <ThemeProvider theme={theme}>
+        <Provider store={store} >
+          {!isEn ?
+          <CacheProvider value={cacheRtl} >
             <MyApp />
-          </Provider>
-        </ThemeProvider>
-      </CacheProvider>
+          </CacheProvider> : <MyApp />}
+        </Provider>
+      </ThemeProvider>
     </AuthProvider>
   )
 

@@ -2,6 +2,7 @@ import { Box, Breadcrumbs, CircularProgress, Grid, Stack, Typography } from "@mu
 import { Link , useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useLang from "../../hooks/useLang";
 
 
 const Order = () => {
@@ -33,32 +34,35 @@ const Order = () => {
     setTotal(0)
     products?.products?.map(pro => setTotal(prev => prev + (pro.count * pro.price)))
   } , [products])
+
+  const isEn = useLang()
+
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37} >
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" href="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> تفاصيل الطلب </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Order Details" :"تفاصيل الطلب "}</Typography>
       </Breadcrumbs>
       {products?.products?.length > 0 && <Grid container spacing={20} mb={14}>
         <Grid item xs={12} md={7}>
           <Box bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"} overflow={"scroll"} >
             <Stack direction={"row"} alignItems={"end"} justifyContent={"space-between"}  mb={10}>
               <Stack direction={{xs : "column" , sm : "row"}} alignItems={{xs : "start" , sm : "center"}} spacing={2}>
-                <Typography variant="h4" color={"#02111D"} > تفاصيل الطلب الخاص بك </Typography>
-                <Typography variant="subtitle" color={"#78828A"} > ({products?.products?.length} من المنتجات) </Typography>
+                <Typography variant="h4" color={"#02111D"} > {isEn ? "Your Order Details" :"تفاصيل الطلب الخاص بك"} </Typography>
+                <Typography variant="subtitle" color={"#78828A"} > ({products?.products?.length} {isEn ? "Products" :"من المنتجات"}) </Typography>
               </Stack>
               <Typography variant="subtitle" color={"#78828A"} > {products?.status} </Typography>
             </Stack>
             <Stack spacing={8} minWidth={560}>
               <Stack p={12} borderRadius={"8px"} bgcolor={"#FFF"} direction={"row"} justifyContent={"space-between"} spacing={12} >
-                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={2} >المنتج</Typography>
-                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >اللون</Typography>
-                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >السعر</Typography>
-                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >الكمية</Typography>
-                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >المجموع</Typography>
+                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={2} >{isEn ? "Product" : "المنتج"}</Typography>
+                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >{isEn ? "Color" : "اللون"}</Typography>
+                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >{isEn ? "Price" : "السعر"}</Typography>
+                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >{isEn ? "Count" : "الكمية"}</Typography>
+                <Typography fontWeight={500} lineHeight={"24px"} color={"#000"} flex={1} >{isEn ? "Total" : "المجموع"}</Typography>
               </Stack>
               {products?.products?.map(product => {
                 return (
@@ -81,21 +85,21 @@ const Order = () => {
           <Box mb={8} bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"} >
             <Typography variant="h4" color={"#02111D"}> الحساب </Typography>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
-              <Typography color={"#000"} > المجموع: </Typography>
+              <Typography color={"#000"} > {isEn ? "Sub Total" :"المجموع"}: </Typography>
               <Typography color={"#000"} > {total} ₪ </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
-              <Typography color={"#000"} > التوصيل: </Typography>
-              <Typography color={"#000"} > مجاني </Typography>
+              <Typography color={"#000"} > {isEn ? "Delivery" :"التوصيل"}: </Typography>
+              <Typography color={"#000"} > {isEn ? "Free" :"مجاني"} </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} pt={12} pb={16}>
-              <Typography color={"#000"} > المجموع الكلي: </Typography>
+              <Typography color={"#000"} > {isEn ? "Total" :"المجموع الكلي"}: </Typography>
               <Typography color={"#000"} > {total} ₪ </Typography>
             </Stack>
           </Box>
           <Box bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"} >
             <Stack direction={"row"} spacing={4} alignItems={"center"} mb={8} >
-              <Typography variant="h4" color={"#02111D"}> العنوان </Typography>
+              <Typography variant="h4" color={"#02111D"}> {isEn ? "Address" :"العنوان"} </Typography>
               <Typography fontSize={14} color={"#66707A"}> ({products?.address.label}) </Typography>
             </Stack>
             <Stack direction={"row"} spacing={8} mb={8}>

@@ -3,8 +3,6 @@
 
 
 .navbar {
-  
-
   .search {
     flex: 1;
     justify-content: center;
@@ -57,4 +55,15 @@
     
   }
   
+}
+
+body.english {
+  .navbar {
+    .search {
+      svg {
+        right: 16px;
+        left: auto;
+      }
+    }
+  }
 }

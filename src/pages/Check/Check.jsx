@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useLang from "../../hooks/useLang";
 
 
 const Check = () => {
@@ -59,26 +60,27 @@ const Check = () => {
         });
   };
   
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37} >
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" href="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
         <Link underline="hover" href="/cart">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > عربة التسوق </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Cart" : "عربة التسوق"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> الفاتورة </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Checkout" : "الدفع"}</Typography>
       </Breadcrumbs>
       <Grid container spacing={20} mb={14}>
         <Grid item xs={12} md={6}>
           <Box bgcolor={"#FCFDFD"} border={"1px solid ECF1F6"} borderRadius={"16px"} p={"24px 16px"}>
-            <Typography fontSize={{xs : 24 , sm : 32}} fontWeight={600} color={"#000"} mb={24}> بيانات الدفع </Typography>
+            <Typography fontSize={{xs : 24 , sm : 32}} fontWeight={600} color={"#000"} mb={24}> {isEn ? "Billing Details" :"بيانات الدفع"} </Typography>
             {/* Form */}
             <Stack spacing={16}>
               <Stack spacing={4}>
-                <Typography color={"#000"} sx={{opacity : ".5"}} > العنوان<span style={{color : "#DB4444"}} >*</span> </Typography>
+                <Typography color={"#000"} sx={{opacity : ".5"}} > {isEn ? "Address" :"العنوان"}<span style={{color : "#DB4444"}} >*</span> </Typography>
                 <TextField sx={{bgcolor : "#F5F5F5"}} select value={addId} onChange={e => setAddId(e.target.value) } >
                   {address.map(add => {
                     return <MenuItem value={add.id} key={add.id} > {add.label} </MenuItem>
@@ -105,21 +107,22 @@ const Check = () => {
             })}
             
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
-              <Typography color={"#000"} > المجموع: </Typography>
+              <Typography color={"#000"} > {isEn ? "Sub Total" :"المجموع"}: </Typography>
               <Typography color={"primary"} > {total} ₪ </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} py={12} borderBottom={"1px solid rgba(0, 0, 0, 0.20)"} >
-              <Typography color={"#000"} > التوصيل: </Typography>
-              <Typography color={"primary"} > مجاني </Typography>
+              <Typography color={"#000"} > {isEn ? "Delivery" :"التوصيل"}: </Typography>
+              <Typography color={"primary"} > {isEn ? "Free" :"مجاني"} </Typography>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"} pt={12} pb={16}>
-              <Typography color={"#000"} > المجموع الكلي: </Typography>
+              <Typography color={"#000"} > {isEn ? "Total" :"المجموع الكلي"}: </Typography>
               <Typography color={"primary"} > {total} ₪ </Typography>
             </Stack>
 
-            <FormControlLabel control={<Radio />} label="الدفع عند التوصيل" checked />
+            <FormControlLabel control={<Radio />} label={isEn ? "Payment on delivery" :"الدفع عند التوصيل"} checked />
             
-            <Button variant="contained" sx={{py : "16px" , mt : 16, borderRadius : "8px"}} fullWidth disabled={loading || !addId} onClick={() => onSubmit()} > {loading ? <CircularProgress /> : " تأكيد الطلب "} </Button>
+            {isEn ? <Button variant="contained" sx={{py : "16px" , mt : 16, borderRadius : "8px"}} fullWidth disabled={loading || !addId} onClick={() => onSubmit()} > {loading ? <CircularProgress /> : " Confirm Order "} </Button>
+            : <Button variant="contained" sx={{py : "16px" , mt : 16, borderRadius : "8px"}} fullWidth disabled={loading || !addId} onClick={() => onSubmit()} > {loading ? <CircularProgress /> : " تأكيد الطلب "} </Button>}
           </Box>
         </Grid>
       </Grid>

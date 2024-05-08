@@ -1,10 +1,13 @@
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useState } from "react";
+import useLang from "../../hooks/useLang";
 
 const Input = ({label , required , error , registerName , register , type , defaultValue , multiline , padding}) => {
 
   const [visible, setVisible] = useState(false)
+
+  const isEn = useLang()
   
   return (
     <Stack alignItems={"start"} spacing={4} >
@@ -15,18 +18,18 @@ const Input = ({label , required , error , registerName , register , type , defa
           defaultValue={defaultValue || ""}
           type={ (visible && type ==="password") ? "text" : type }
           {...register(registerName , { 
-            required : required && "هذا الحقل مطلوب",
+            required : required && (isEn ? "This field is required" : "هذا الحقل مطلوب"),
             pattern : (type === "email" || type === "password") && {
               value : type === "email" ? /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i : /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-              message : type === "email" ? "من فضلك ادخل ايميل صالح" : "الباسورد يجب ان يحتوي على حروف صغيرة و كبيرة و ارقام"
+              message : type === "email" ? (isEn ? "Please add valid email" :"من فضلك ادخل ايميل صالح") : (isEn ? "Password must have at least one (number , uppercase letter and lower case letter)" :"الباسورد يجب ان يحتوي على حروف صغيرة و كبيرة و ارقام")
             },
             minLength : type === "password" && {
               value : 8,
-              message : "الباسورد يجب ان يحتوي على الاقل 8 خانات"
+              message : isEn ? "Password must have at least 8 characters" :"الباسورد يجب ان يحتوي على الاقل 8 خانات"
             },
             maxLength : type === "password" && {
               value : 16,
-              message : "الباسورد يجب ان يحتوي على الأكثر 16 خانة"
+              message : isEn ? "Password must have max 16 characters" : "الباسورد يجب ان يحتوي على الأكثر 16 خانة"
             }
           })}
           fullWidth

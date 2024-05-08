@@ -7,6 +7,7 @@ import { ADD_FAV , DEL_FAV } from "../../store/favSlice";
 import { ADD_CART } from "../../store/cartsSlice";
 import { useNavigate } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
+import useLang from "../../hooks/useLang";
 
 
 
@@ -52,6 +53,7 @@ const Pro = ({product , fav , newP}) => {
     }
   }
 
+  const isEn = useLang()
   
   return (
     <>
@@ -66,10 +68,10 @@ const Pro = ({product , fav , newP}) => {
           </Link>
 
         </Stack>
-        <Typography fontWeight={500} mb={4} fontSize={{xs : 14 , sm : 16}} > {product?.title} </Typography>
+        <Typography fontWeight={500} mb={4} fontSize={{xs : 14 , sm : 16}} > {isEn ? product?.title : product?.title_ar} </Typography>
         <Typography fontWeight={600} fontSize={{xs : 16 , sm : 18}} color={"primary"} > {product?.price} ₪ </Typography>
         <Stack sx={{position : "absolute" , top : 8}} direction={"row"} alignItems={"center"} justifyContent={"space-between"} width={"100%"} px={8} >
-          {newP ? <Typography fontSize={12} color={"#FAFAFA"} bgcolor={"primary.secondary"} p={"4px 12px"} borderRadius={"8px"}> جديدنا </Typography> : <Stack></Stack>}
+          {newP ? <Typography fontSize={12} color={"#FAFAFA"} bgcolor={"primary.secondary"} p={"4px 12px"} borderRadius={"8px"}> {isEn ? "New" : "جديدنا"} </Typography> : <Stack></Stack>}
           <IconButton className={checkFav ? "active" : ""} sx={{color : "#9EA7B8" , "&:hover , &.active" : {color : "red"}}} color="error" onClick={() => addToFav()}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"

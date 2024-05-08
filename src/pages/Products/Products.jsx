@@ -10,6 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import wish from "../../images/cart.png"
+import useLang from "../../hooks/useLang";
 
 
 
@@ -66,14 +67,16 @@ const Products = () => {
         })
         .finally(() => setLoading(false));
   }, [maxPrice , minPrice , catId , subCatId , brand , filters , id]);
+
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#F8FAFC"}>
       <Breadcrumbs separator=">">
         <Link underline="hover" to="/">
-          <Typography color={"primary"} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"primary"} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="text.secondary" variant="breadcrumbs"> المنتجات </Typography>
+        <Typography color="text.secondary" variant="breadcrumbs"> {isEn ? "Products" :"المنتجات"} </Typography>
       </Breadcrumbs>
       {id && <Brand count={products.length} />}
       <Grid container mt={12} mb={35}>
@@ -107,13 +110,15 @@ const Brand = ({count}) => {
             console.log(err);
         })
   }, [id]);
+
+  const isEn = useLang()
   
   return (
     <Stack p={8} mt={12} mb={4} borderRadius={"12px"} bgcolor={"#ECF1F6"} direction={"row"} spacing={8} >
       <Stack height={120} width={250} p={8} alignItems={"center"} justifyContent={"center"} border={"1px solid"} borderColor={"#D1D8DD"} borderRadius={"8px"} sx={{transition : ".5s" , "&:hover" : {borderColor : "primary.main"}}} > <img src={"https://backend.touchtechco.com/public/" + brand?.image} alt={brand?.title} style={{maxHeight : "100%"}} /> </Stack>
       <Stack spacing={8} >
         <Typography variant="h2" color={"#02111D"} > {brand?.title} </Typography>
-        <Typography variant="body" color={"#02111D"} > يمكنك تصفح {count} من منتجات {brand?.title} المختلفة </Typography>
+        <Typography variant="body" color={"#02111D"} > {isEn ? `You can explore ${count} ${brand?.title} Products` :`يمكنك تصفح ${count} من منتجات ${brand?.title} المختلفة`} </Typography>
       </Stack>
     </Stack>
   )
@@ -141,12 +146,14 @@ const Filter = ({setCatId , setSubCatId , setMaxPrice , setMinPrice , setBrand ,
             console.log(err);
         })
   }, []);
+
+  const isEn = useLang()
   
   return (
     <>
     <Stack bgcolor={"#FFF"} borderRadius={"8px"} overflow={"hidden"} >
       <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} p="12px 16px" bgcolor={"primary.main"} >
-        <Typography variant="title" color={"#F8FAFC"} fontWeight={500} fontSize={16} > تصفح عن طريق</Typography>
+        <Typography variant="title" color={"#F8FAFC"} fontWeight={500} fontSize={16} > {isEn ? "Shop By":"تصفح عن طريق"}</Typography>
         <IconButton onClick={() => setActive(prev => !prev)} sx={{ rotate : active ? "180deg" : "0deg" , transition : ".5s" , display : {xs : "flex" , sm : "none"} }} > <KeyboardArrowDownRoundedIcon /> </IconButton>
       </Stack>
       <Stack sx={{overflow : "hidden" , transition : ".5s"}} height={active ? "auto" : "0px"} px={6}>
@@ -167,12 +174,13 @@ const Filter = ({setCatId , setSubCatId , setMaxPrice , setMinPrice , setBrand ,
 const FeaturedBrands = ({brands}) => {
 
   const swiperRef = useRef();
+  const isEn = useLang()
   
   return (
     <Stack mt={12} bgcolor={"#FFF"} borderRadius={"8px"} overflow={"hidden"}>
       <Stack p={"12px 16px"} bgcolor={"primary.main"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} >
-        <Typography fontWeight={500} color={"#F8FAFC"}> علاماتنا المميزة </Typography>
-        <Stack direction={"row"} spacing={2}>
+        <Typography fontWeight={500} color={"#F8FAFC"}> {isEn ? "Featured Brands" :"علاماتنا المميزة"} </Typography>
+        <Stack direction={isEn ? "row-reverse" : "row"} spacing={2}>
           <IconButton onClick={() => swiperRef.current.slidePrev()}> <ArrowForwardIcon sx={{color : "white"}}/> </IconButton>
           <IconButton onClick={() => swiperRef.current.slideNext()} className="next" > <ArrowBackIcon sx={{color : "white"}}/> </IconButton>
         </Stack>
@@ -180,27 +188,30 @@ const FeaturedBrands = ({brands}) => {
       <Swiper
         slidesPerView={1}
         spaceBetween={0}
-        loop
-        style={{width : "100%"}}
+        style={{width : "100%" , direction : "rtl"}}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
       >
-        <SwiperSlide>
-          <Grid container>
-            {brands?.map(brand => {
-              return (
-                <Grid xs={4} key={brand.id} item >
-                  <Link to={"/brands/" + brand.id} >
-                    <Stack alignItems={"center"} justifyContent={"center"} height={"100%"} p={8} sx={{transition : ".5s" , "&:hover" : {scale : "1.1"}}} >
-                    <img src={"https://backend.touchtechco.com/public/"+ brand?.image} alt={brand.title} width={"100%"} />
-                    </Stack>  
-                  </Link>
-                </Grid> 
-              )
-            })}
-          </Grid>
-        </SwiperSlide>
+        {Array(Math.ceil(brands?.length / 6)).fill("0").map((item , j) => {
+          return (
+            <SwiperSlide key={j}>
+              <Grid container>
+                {brands?.slice((j+1)*6 - 6 , (j+1)*6).map(brand => {
+                  return (
+                    <Grid xs={4} key={brand.id} item>
+                      <Link to={"/brands/" + brand.id}>
+                        <Stack alignItems={"center"} justifyContent={"center"} height={"100%"} p={8} sx={{transition : ".5s" , "&:hover" : {scale : "1.1"}}}>
+                        <img src={"https://backend.touchtechco.com/public/"+brand?.image} alt={brand.title} width={"100%"} />
+                        </Stack>  
+                      </Link>
+                    </Grid> 
+                  )
+                })}
+              </Grid>
+            </SwiperSlide>
+          )
+        })}
       </Swiper>
     </Stack>
   )
@@ -227,14 +238,16 @@ const Category = ({setCatId , setSubCatId , setOptions , setFilters}) => {
   
   const [checked, setChecked] = useState(false)
   const [catId, setcatId] = useState("")
+
+  const isEn = useLang()
   
   return (
     <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}> التصنيفات </AccordionSummary>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? "Categories" : "التصنيفات"} </AccordionSummary>
       <AccordionDetails>
         <FormControl>
           <RadioGroup>
-            <FormControlLabel value={""} control={<Radio />} label={"الكل"} onChange={e => {
+            <FormControlLabel value={""} control={<Radio />} label={isEn ? "All" : "الكل"} onChange={e => {
               setSubCatId("")
               setChecked(e.target.checked)
               setcatId("")
@@ -290,10 +303,12 @@ const Price = ({setMaxPrice , setMinPrice}) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const isEn = useLang()
   
   return (
     <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}> السعر </AccordionSummary>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? "Price" : "السعر"} </AccordionSummary>
       <AccordionDetails>
         <Stack pb={12} borderBottom={"1px solid"} borderColor={"primary.border"} mb={16} px={8}>
           <Slider 
@@ -307,7 +322,7 @@ const Price = ({setMaxPrice , setMinPrice}) => {
             <Box bgcolor={"primary.errorBg"} padding={"4px 8px"} borderRadius={"4px"} >
               <Typography variant="breadcrumbs" > {value[0]} ₪ </Typography>
             </Box>
-            <Typography variant="breadcrumbs" color={"text.secondary"} > الى </Typography>
+            <Typography variant="breadcrumbs" color={"text.secondary"} > {isEn ? "To" :"الى"} </Typography>
             <Box bgcolor={"primary.errorBg"} padding={"4px 8px"} borderRadius={"4px"} >
               <Typography variant="breadcrumbs" > {value[1]} ₪ </Typography>
             </Box>
@@ -318,11 +333,11 @@ const Price = ({setMaxPrice , setMinPrice}) => {
             setValue([0 , 5000])
             setMaxPrice("")
             setMinPrice("")
-          }}> اعادة  </Button>
+          }}> {isEn?"Reset" :"اعادة"}  </Button>
           <Button variant="outlined" sx={{p : "8px 40px" , borderRadius : "8px"}} onClick={() => {
             setMinPrice(value[0])
             setMaxPrice(value[1])
-          }} > تطبيق  </Button>
+          }} > {isEn ? "Apply":"تطبيق"}  </Button>
         </Stack>
       </AccordionDetails>
     </Accordion>
@@ -333,14 +348,16 @@ const Price = ({setMaxPrice , setMinPrice}) => {
 const Brands = ({setBrand , brands}) => {
 
   const {id} = useParams()
-    
+  
+  const isEn = useLang()
+  
   return (
     !id&&<Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}> العلامات التجارية </AccordionSummary>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? "Brands" :"العلامات التجارية"} </AccordionSummary>
       <AccordionDetails>
         <FormControl>
           <RadioGroup>
-            <FormControlLabel value={""} control={<Radio />} label={"الكل"} onChange={() => {
+            <FormControlLabel value={""} control={<Radio />} label={isEn ?"All Brands" :"الكل"} onChange={() => {
               setBrand("")
             }} />
             {brands?.map(cat => {
@@ -361,10 +378,12 @@ const Brands = ({setBrand , brands}) => {
 
 const ProductsList = ({products}) => {
 
+  const isEn = useLang()
+  
   return (
     <Stack pl={{xs : 0 , sm : 20}} mt={{xs : 12 , sm : 0}} >
       {products.length > 0 && <Stack direction={{xs : "column" , md : "row"}} alignItems={{xs : "start" , md : "center"}} justifyContent={"space-between"} mb={8} spacing={4} >
-        <Typography variant="title" > {products?.length} <span style={{color : "#5F6177"}} >منتجات موجوده</span> </Typography>
+        <Typography variant="title" > {products?.length} <span style={{color : "#5F6177"}} >{isEn ? "product found" :"منتجات موجوده"}</span> </Typography>
       </Stack>}
       {products.length > 0 ? <Grid container spacing={15} mb={24} >
         {products?.map((pro , i) => {
@@ -378,7 +397,7 @@ const ProductsList = ({products}) => {
       <Stack alignItems={"center"} spacing={24} pt={16}>
         <img src={wish} alt="Wish list No Item" />
         <Stack spacing={4} alignItems={"center"}>
-          <Typography variant="h2" color={"#02111D"} textAlign={"center"} > لا يوجد اي منتجات </Typography>
+          <Typography variant="h2" color={"#02111D"} textAlign={"center"} > {isEn ? "No products found" :"لا يوجد اي منتجات"} </Typography>
         </Stack>
       </Stack>}
       {/* {products.length > 0 && <Stack alignItems={"center"} > <Pagination count={1} color="primary" defaultPage={1} /> </Stack>} */}

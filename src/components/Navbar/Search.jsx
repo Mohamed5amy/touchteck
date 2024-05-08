@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import useLang from "../../hooks/useLang";
 
 
 const Search = () => {
@@ -40,9 +41,11 @@ const Search = () => {
       }
   }, [search, products]);
   
+  const isEn = useLang()
+  
   return (
     <Stack className="search" direction={"row"} alignItems={"center"} position={"relative"}>
-      <input type="text" placeholder="ابحث عن منتج" value={search} onChange={e => setSearch(e.target.value)} />
+      <input type="text" placeholder={isEn ? "Search products" : "ابحث عن منتج"} value={search} onChange={e => setSearch(e.target.value)} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -67,7 +70,7 @@ const Search = () => {
                 <img src={"https://backend.touchtechco.com/public/" + pro?.images[0]?.url} alt="product" width={100} />
                 <Stack>
                   <Typography color={"#02111D"} > {pro.title} </Typography>
-                  <Typography fontSize={14} fontWeight={500} color={"text.third"} > السعر : {pro.price} </Typography>
+                  <Typography fontSize={14} fontWeight={500} color={"text.third"} > {isEn ? "Price" : "السعر"} : {pro.price} </Typography>
                   <Typography fontSize={14} fontWeight={500} color={"secondary"} > {pro.brand_title} </Typography>
                 </Stack>
               </Stack>

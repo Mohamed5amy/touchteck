@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Search from "./Search";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import LinkIcon from '@mui/icons-material/Link';
+import useLang from "../../hooks/useLang";
 
 
 
@@ -114,13 +115,17 @@ const Top = ({setActive , setActiveCart}) => {
 
 const Menu = ({active , setActive , cats}) => {
 
+  const isEn = useLang()
+  
   const items = [
     {
       name : "الرئيسة",
+      Ename : "Home",
       link : "/",
     },
     {
       name : "من نحن",
+      Ename : "About",
       link : "/about",
     },
   ]
@@ -128,14 +133,17 @@ const Menu = ({active , setActive , cats}) => {
   const items2 = [
     {
       name : "منتجاتنا",
+      Ename : "Products",
       link : "/products",
     },
     {
       name : "علاماتنا التجارية",
+      Ename : "Brands",
       link : "/brands",
     },
     {
       name : "تواصل معنا",
+      Ename : "Contact",
       link : "/contact",
     },
   ]
@@ -173,7 +181,7 @@ const Menu = ({active , setActive , cats}) => {
             return (
               <Link key={i} to={item.link} onClick={() => setActive(false)}>
                 <Stack direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle}>
-                  <Typography variant="subtitle" > {item.name} </Typography>
+                  <Typography variant="subtitle" > {isEn ? item.Ename : item.name} </Typography>
                 </Stack>
               </Link>
             )
@@ -185,14 +193,14 @@ const Menu = ({active , setActive , cats}) => {
             return (
               <Link key={i} to={item.link} onClick={() => setActive(false)}>
                 <Stack direction={"row"} alignItems={"center"} spacing={4} pl={10} py={7} color={"#434E58"} sx={itemStyle}>
-                  <Typography variant="subtitle" > {item.name} </Typography>
+                  <Typography variant="subtitle" > {isEn ? item.Ename : item.name} </Typography>
                 </Stack>
               </Link>
             )
           })}
         </Stack>
 
-        <Stack px={10}> <Button variant="contained" sx={{py : "16px"}} onClick={() => {navigate("/products") ; setActive(false)}} > جميع المنتجات </Button> </Stack>
+        <Stack px={10}> <Button variant="contained" sx={{py : "16px"}} onClick={() => {navigate("/products") ; setActive(false)}} > {isEn ? "All Products" : "جميع المنتجات"} </Button> </Stack>
 
         <IconButton color="primary" sx={{ position : "absolute" , right : "10px" , top : "10px" }} onClick={() => setActive(false)} > <ClearIcon /> </IconButton>
 
@@ -204,11 +212,12 @@ const Menu = ({active , setActive , cats}) => {
 const GCategory = ({item , itemStyle , setNav}) => {
 
   const [active, setActive] = useState(false)
+  const isEn = useLang()
   
   return (
     <>
       <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
-          <Typography variant="button" noWrap >{item.name}</Typography>
+          <Typography variant="button" noWrap >{isEn ? item.name : item.name_ar}</Typography>
           <Link to={"/general-category/" + item?.id} onClick={() => {setNav(false) ; setActive(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
       </Stack>
       {active && <Category cats={item?.categories} itemStyle={itemStyle} setNav={setNav} />}
@@ -220,6 +229,7 @@ const Category = ({cats , itemStyle , setNav}) => {
 
   const [active, setActive] = useState(false)
   const [catId, setCatId] = useState("")
+  const isEn = useLang()
   
   return (
       cats?.map((cat , i) => {
@@ -228,7 +238,7 @@ const Category = ({cats , itemStyle , setNav}) => {
             <Stack spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={16} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} justifyContent={"space-between"} pr={4}
             onClick={() => {setActive(!active) ; setCatId(cat.id)}}>
               <Typography variant="button" noWrap display={"flex"} alignItems={"center"} > 
-                <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : "0deg"}} /> {cat.name}
+                <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : "0deg"}} /> {isEn ? cat.name : cat.name_ar}
               </Typography>
               <Link to={"/category/" + cat?.id} onClick={() => {setNav(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
             </Stack>
@@ -240,12 +250,15 @@ const Category = ({cats , itemStyle , setNav}) => {
 }
 
 const SCategory = ({cats , itemStyle , setNav}) => {
+
+  const isEn = useLang()
+  
   return (
       cats?.map((cat , i) => {
         return (
           <Link key={i} to={"/sub-category/" + cat.id} onClick={() => setNav(false)}>
             <Stack spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={32} py={7} color={"#434E58"} sx={itemStyle} position={"relative"}>
-              <Typography variant="button" noWrap >{cat.title}</Typography>
+              <Typography variant="button" noWrap >{isEn ? cat.title : cat.title_ar}</Typography>
             </Stack>
           </Link>
         )

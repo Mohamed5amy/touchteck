@@ -7,6 +7,7 @@ import Input from "../../components/Input/Input";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
+import useLang from "../../hooks/useLang";
 
 
 const Contact = () => {
@@ -31,23 +32,22 @@ const Contact = () => {
     .finally(() => setLoading(false))
   }
   
+  const isEn = useLang()
+  
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37}>
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" href="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ?"Home" :"الرئيسية"} </Typography>
         </Link>
-        <Link underline="hover" href="/cart">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > تواصل معنا </Typography>
-        </Link>
-        <Typography color="#000" variant="breadcrumbs"> الفاتورة </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Contact" : "تواصل معنا"} </Typography>
       </Breadcrumbs>
       <Grid container spacing={20} >
         <Grid item xs={12} md={6}>
           <Box p={20} bgcolor={"#FCFDFD"} borderRadius={"16px"} height={"100%"} >
             <Stack direction={"row"} alignItems={"center"} spacing={4} p={8} border={"1px solid #E3E9ED"} borderRadius={"12px"} mb={4}>
               <IconButton color="primary"> <LocationOnOutlinedIcon /> </IconButton>
-              <Typography> فلسطين - نابلس - شارع المخفية - امام ديوان كوني </Typography>
+              <Typography> {isEn ? "Palestine-Nablus - Al-makhfiya main St- opposite Diwan kwny" :"فلسطين - نابلس - المخفيه بجانب صحة المخفيه - مقابل ديوان الكوني"}</Typography>
             </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={4} p={8} border={"1px solid #E3E9ED"} borderRadius={"12px"} mb={4}>
               <a href="tel:009792347767"><IconButton color="primary"> <PhoneOutlinedIcon /> </IconButton></a>
@@ -63,18 +63,18 @@ const Contact = () => {
         <Grid item xs={12} md={6}>
           <Box p={20} bgcolor={"#FCFDFD"} borderRadius={"16px"} height={"100%"} >
 
-            <Typography fontSize={36} fontWeight={600} mb={20}> تواصل معنا </Typography>
+            <Typography fontSize={36} fontWeight={600} mb={20}> {isEn ? "Contact" : "تواصل معنا"}</Typography>
 
-            <Input label={"الاسم"} required={true} error={errors?.name?.message || (invalid?.name && invalid?.name[0])} type={"text"} register={register} registerName={"name"} />
+            <Input label={isEn ?"Name" :"الاسم"} required={true} error={errors?.name?.message || (invalid?.name && invalid?.name[0])} type={"text"} register={register} registerName={"name"} />
 
             <Stack height={"24px"} ></Stack>
 
-            <Input label={"الايميل"} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"email"} register={register} registerName={"email"} />
+            <Input label={isEn ? "Email":"الايميل"} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"email"} register={register} registerName={"email"} />
 
             <Stack height={"24px"} ></Stack>
 
             <Stack position={"relative"} >
-              <Input label={"رقم الهاتف"} required={true} type={"number"} error={errors?.mobile?.message || (invalid?.mobile && invalid?.mobile[0])} register={register} registerName={"mobile"} padding={true} />
+              <Input label={isEn ? "Phone Number":"رقم الهاتف"} required={true} type={"number"} error={errors?.mobile?.message || (invalid?.mobile && invalid?.mobile[0])} register={register} registerName={"mobile"} padding={true} />
               <Stack position={"absolute"} top={49} left={16} direction={"row"} alignItems={"center"} spacing={4} pr={4} borderRight={"1px solid #E3E5ED"} >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,10 +125,10 @@ const Contact = () => {
 
             <Stack height={"24px"} ></Stack>
 
-            <Input label={"رسالتك"} multiline={true} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"text"} register={register} registerName={"email"} />
+            <Input label={isEn ?"Message" :"رسالتك"} multiline={true} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"text"} register={register} registerName={"email"} />
 
             <Button disabled={loading} variant="contained" sx={{p : "15px 0" , borderRadius : "8px" , width : "100%" , mt : 20 , height : "58px"}} onClick={handleSubmit(onSubmit)} >
-              {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >ارسال</Typography>}
+              {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >{isEn ?"Send" :"ارسال"}</Typography>}
             </Button>
             
           </Box>

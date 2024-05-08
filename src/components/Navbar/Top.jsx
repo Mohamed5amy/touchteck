@@ -1,26 +1,50 @@
 import { Stack, Typography } from "@mui/material";
+import PublicIcon from '@mui/icons-material/Public';
+import useLang from "../../hooks/useLang";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
 const Top = () => {
+
+  const isEnglish = useLang()
+  
+  const handleLang = () => {
+    if (isEnglish) {
+      localStorage.setItem("lang" , "arabic")
+    } else {
+      localStorage.setItem("lang" , "english")
+    }
+    window.location.reload()
+  }
+
+  useEffect(()=>{
+    isEnglish ? document.body.classList.add("english") : document.body.classList.remove("english")
+  } , [isEnglish])
+  
   return (
-      <Stack py={6} direction={{xs : "column" , md : "row"}} spacing={4} alignItems={{xs : "center" , md : "start"}} bgcolor={"primary.main"} justifyContent={{xs : "center" , md : "space-between" }} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} color={"#FAFAFA"} display={{xs : "none" , md : "flex"}} >
-        {/* Middle */}
-        <Typography variant="body" > تخفيضات الصيف على جميع بدلات السباحة والتوصيل السريع المجاني - خصم 50%! <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > تسوق الآن </strong> </Link> </Typography>
+      <Stack py={6} direction={"row"} spacing={4} alignItems={"center"} bgcolor={"primary.main"} justifyContent={"space-between"} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} color={"#FAFAFA"}  >
+        {/* Left */}
+        <Typography fontWeight={600} sx={{transition : ".5s" ,"&:hover" : {color : "primary.secondary" , cursor : "pointer"}}} flexDirection={isEnglish ? "row-reverse" : "row"} display={"flex"} alignItems={"center"} gap={4} onClick={() => handleLang()} > {isEnglish ? "Arabic" : "English"} <PublicIcon /> </Typography>
         {/* Right */}
+        {isEnglish ? <Typography display={{xs : "none" , md : "flex"}} variant="body" > Free delivery for all orders over $140 <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > Shop Now</strong> </Link> </Typography> :
+        <Typography display={{xs : "none" , md : "flex"}} variant="body" > التوصيل مجاني لجميع الطلبات التي تزيد قيمتها عن 140 دولارًا <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > تسوق الآن </strong> </Link> </Typography>}
+        {/* Middle */}
         <Stack direction={"row"} display={{xs : "none" , md : "block" }} spacing={8} className="socialFooter" >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              fill="currentColor"
-              d="M9 0C4.037 0 0 4.037 0 9c0 4.962 4.037 9 9 9 4.962 0 9-4.038 9-9 0-4.963-4.037-9-9-9zm2.238 9.317H9.774v5.219h-2.17v-5.22H6.573V7.473h1.031V6.28c0-.854.406-2.19 2.19-2.19l1.608.007v1.79h-1.167c-.19 0-.46.095-.46.503v1.084h1.653l-.19 1.844z"
-            ></path>
-          </svg>
+          <a href="https://www.facebook.com/touchtechpal?mibextid=LQQJ4d" target="_blank" rel="noreferrer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                fill="currentColor"
+                d="M9 0C4.037 0 0 4.037 0 9c0 4.962 4.037 9 9 9 4.962 0 9-4.038 9-9 0-4.963-4.037-9-9-9zm2.238 9.317H9.774v5.219h-2.17v-5.22H6.573V7.473h1.031V6.28c0-.854.406-2.19 2.19-2.19l1.608.007v1.79h-1.167c-.19 0-.46.095-.46.503v1.084h1.653l-.19 1.844z"
+              ></path>
+            </svg>
+          </a>
+          <a href="https://api.whatsapp.com/send?phone=+972594050740&text=Welcome%20To Touch%20Tech" target="_blank" rel="noreferrer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -38,6 +62,8 @@ const Top = () => {
               </clipPath>
             </defs>
           </svg>
+          </a>
+          <a href="https://www.instagram.com/touchtech.ps/?igsh=MWgyMzk1MGlsemxjOA%3D%3D" target="_blank" rel="noreferrer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -56,6 +82,45 @@ const Top = () => {
               </clipPath>
             </defs>
           </svg>
+          </a>
+          <a href="https://www.tiktok.com/@ps.touch.tech?_t=8mA180UD7CK&_r=1" target="_blank" rel="noreferrer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="18"
+            fill="none"
+            viewBox="0 0 19 18"
+          >
+            <rect width="18" height="18" x="0.25" fill="currentColor" rx="9"></rect>
+            <path
+              fill="#0A5C99"
+              d="M8.316 8.095v-.651a3.607 3.607 0 00-.512-.044 3.796 3.796 0 00-2.176 6.911 3.792 3.792 0 01-.724-4.06c.581-1.379 1.917-2.123 3.412-2.156z"
+            ></path>
+            <path
+              fill="#0A5C99"
+              d="M8.408 13.46c.98.388 1.691-.733 1.732-1.66V3.523h1.512A2.841 2.841 0 0111.608 3H9.54v8.268c-.035.932-.8 1.67-1.732 1.671a1.816 1.816 0 01-.814-.195c-.074.263.446.975 1.414.715zm6.068-7.128v-.46c-.557 0-1.1-.164-1.564-.472.406.472.955.8 1.564.932z"
+            ></path>
+            <path
+              fill="#0A5C99"
+              d="M11.608 11.204V7c.837.6 1.842.922 2.872.92v-1.6a2.867 2.867 0 01-1.568-.92 2.864 2.864 0 01-1.26-1.88H10.14v8.28a1.736 1.736 0 01-3.14.948 1.736 1.736 0 01.8-3.272c.174.001.346.028.512.08v-1.6a3.792 3.792 0 00-2.688 6.4c.643.434 1.404.659 2.18.644 2.098 0 3.8-1.699 3.804-3.796z"
+            ></path>
+          </svg>
+          </a>
+          <a href="https://t.me/TouchTech0" target="_blank" rel="noreferrer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="18"
+            fill="currentColor"
+            viewBox="0 0 19 18"
+          >
+            <rect width="18" height="18" x="0.75" fill="currentColor" rx="9"></rect>
+            <path
+              fill="#0A5C99"
+              d="M7.709 10.59l-.199 2.793c.284 0 .407-.122.555-.269l1.331-1.272 2.76 2.02c.506.282.862.134.999-.465l1.81-8.486c.161-.748-.27-1.041-.762-.858L3.557 8.13c-.726.282-.715.687-.123.87l2.721.847 6.322-3.956c.298-.197.568-.088.346.11l-5.114 4.59z"
+            ></path>
+          </svg>
+          </a>
         </Stack>
       </Stack>
   )

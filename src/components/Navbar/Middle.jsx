@@ -6,6 +6,7 @@ import Cart from "../Cart/Cart";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
+import useLang from "../../hooks/useLang";
 
 
 
@@ -28,6 +29,9 @@ const Icons = ({setActive}) => {
 
   const isAuthenticated = useIsAuthenticated()
   const navigate = useNavigate()
+  const isEn = useLang()
+
+  const name = JSON.parse(localStorage.getItem("user"))?.name?.split(" ")[0]
   
   return (
     <Stack direction={"row"} spacing={8} >
@@ -51,7 +55,7 @@ const Icons = ({setActive}) => {
               clipRule="evenodd"
             ></path>
           </svg>
-          <Typography variant="breadcrumb" > {isAuthenticated() ? "الملف الشخصي" : "تسجيل الدخول"} </Typography>
+          {isEn ? <Typography variant="breadcrumb" style={{textTransform : "capitalize"}} > {isAuthenticated() ? (name && "Hi, " + name || "profile") : "Login"} </Typography> : <Typography variant="breadcrumb" style={{textTransform : "capitalize"}} > {isAuthenticated() ? (name && "مرحبا, " + name || "الملف الشخصي") : "تسجيل الدخول"} </Typography>}
         </Stack>
       </Link>
       {/* Fav */}
@@ -81,7 +85,7 @@ const Icons = ({setActive}) => {
               d="M21.051 10.085c1.61.165 2.616 1.441 2.556 3.23"
             ></path>
           </svg>
-          <Typography variant="breadcrumb" > المفضلة </Typography>
+          <Typography variant="breadcrumb" > {isEn ? "Wishlist" : "المفضلة"} </Typography>
         </Stack>
       </Link>
       {/* Cart */}
@@ -113,7 +117,7 @@ const Icons = ({setActive}) => {
             clipRule="evenodd"
           ></path>
         </svg>
-        <Typography variant="breadcrumb"> عربة التسوق </Typography>
+        <Typography variant="breadcrumb"> {isEn ? "Cart" : "عربة التسوق"} </Typography>
       </Stack>
     </Stack>
   )

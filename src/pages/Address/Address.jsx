@@ -8,6 +8,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Popup from "../../components/Popup/Popup"
 import addressImg from "../../images/address.png"
+import useLang from "../../hooks/useLang";
 
 const Address = () => {
 
@@ -53,13 +54,16 @@ const Address = () => {
         })
   };
   
+  const isEn = useLang()
+
+
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37} >
       <Breadcrumbs separator=">" sx={{mb : 14}} >
         <Link underline="hover" to="/">
-          <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > الرئيسية </Typography>
+        <Typography color={"#000"} sx={{opacity : ".5"}} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
-        <Typography color="#000" variant="breadcrumbs"> العناوين </Typography>
+        <Typography color="#000" variant="breadcrumbs"> {isEn ? "Addresses" :"العناوين"} </Typography>
       </Breadcrumbs>
       <Grid container spacing={16}>
         <Grid item xs={12} sm={4} md={3} >
@@ -68,7 +72,7 @@ const Address = () => {
         {!loading ? <Grid item xs={12} sm={8} md={9} >
           {address.length > 0 ?
           <>
-          <Typography variant="h3" color={"#13131B"} mb={8} > العناوين </Typography>
+          <Typography variant="h3" color={"#13131B"} mb={8} > {isEn ? "Addresses" :"العناوين"} </Typography>
           {address?.map(add => {
             return (
               <Box bgcolor={"#fff"} border={"1px solid #E3E9ED"} borderRadius={"8px"} p={12} mb={8} position={"relative"} key={add.id}>
@@ -148,11 +152,11 @@ const Address = () => {
           <Stack alignItems={"center"} spacing={24} pt={16}>
             <img src={addressImg} alt="Wish list No Item" />
             <Stack spacing={4} alignItems={"center"} >
-              <Typography variant="h2" color={"#02111D"} textAlign={"center"} >لا يوجد لديك اى عناوين</Typography>
-              <Typography variant="subtitle" color={"#242432"} textAlign={"center"} >اضف عنوان الان</Typography>
+              <Typography variant="h2" color={"#02111D"} textAlign={"center"} >{isEn ? "Don’t have any Address" :"لا يوجد لديك اى عناوين"}</Typography>
+              <Typography variant="subtitle" color={"#242432"} textAlign={"center"} >{isEn ? "Go to add new address." :"اضف عنوان الان"}</Typography>
             </Stack>
             <Link to={"add"} >
-            <Button variant="contained" sx={{p : {xs : "16px 70px" , sm : "16px 120px"} , borderRadius : "8px"}} > اضافة عنوان </Button>
+            <Button variant="contained" sx={{p : {xs : "16px 70px" , sm : "16px 120px"} , borderRadius : "8px"}} > {isEn ? "Add Address" :"اضافة عنوان "}</Button>
             </Link>
           </Stack>}
         </Grid> : 
@@ -164,14 +168,14 @@ const Address = () => {
       <Stack justifyContent={"end"} direction={"row"} mt={8} spacing={8} >
         <Link to={"add"} >
           <Button variant="contained" sx={{py : 8 , width : "200px" , borderRadius : "8px"}}>
-            اضافة عنوان جديد 
+            {isEn ? "Add New Address" :"اضافة عنوان جديد"}
           </Button>
         </Link>
       </Stack>}
       <Popup
           open={open}
           setOpen={setOpen}
-          message={"هل انت متأكد انك تريد حذف هذا العنوان ؟"}
+          message={isEn ? "Are you sure you want to delete this address?" :"هل انت متأكد انك تريد حذف هذا العنوان؟"}
           type="delete"
           fn={handleDelete}
       />

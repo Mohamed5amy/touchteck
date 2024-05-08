@@ -6,6 +6,7 @@ import { useIsAuthenticated } from "react-auth-kit";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
+import useLang from "../../hooks/useLang";
 
 const Register = () => {
 
@@ -39,21 +40,23 @@ const Register = () => {
       .finally(() => setLoading(false))
     }
 
+    const isEn = useLang()
+
   return (
     <Stack position={"relative"} pt={20} zIndex={2} alignItems={"center"} bgcolor={"#ECF1F6"} >
         <Box p={{xs : "20px" , sm : "40px"}} bgcolor={"#FCFDFD"} borderRadius={"16px"} width={{xs : "350px" , sm : "530px"}} mb={24} textAlign={"center"} >
 
           <img src={logo} width={170} alt="Logo" />
 
-          <Typography variant="h2" mt={8} mb={0} textAlign={"center"} > سجل حساب الان </Typography>
-          <Typography mb={20} textAlign={"center"} color={"#434E58"} > من فضلك املأ بياناتك فى الاسفل </Typography>
+          <Typography variant="h2" mt={8} mb={0} textAlign={"center"} > {isEn ? "Sign Up Now" : "سجل حساب الان"} </Typography>
+          <Typography mb={20} textAlign={"center"} color={"#434E58"} > {isEn ? "Please fill the details and create account" : "من فضلك املأ بياناتك فى الاسفل"} </Typography>
 
-          <Input label={"الاسم كامل"} required={true} error={errors?.name?.message || (invalid?.name && invalid?.name[0])} type={"text"} register={register} registerName={"name"} />
+          <Input label={isEn ? "Full Name" :"الاسم كامل"} required={true} error={errors?.name?.message || (invalid?.name && invalid?.name[0])} type={"text"} register={register} registerName={"name"} />
 
           <Stack height={"24px"} ></Stack>
 
           <Stack position={"relative"} >
-            <Input label={"رقم الهاتف"} required={true} type={"number"} error={errors?.mobile?.message || (invalid?.mobile && invalid?.mobile[0])} register={register} registerName={"mobile"} padding={true} />
+            <Input label={isEn ? "Phone Number" :"رقم الهاتف"} required={true} type={"number"} error={errors?.mobile?.message || (invalid?.mobile && invalid?.mobile[0])} register={register} registerName={"mobile"} padding={true} />
             <Stack position={"absolute"} top={49} left={16} direction={"row"} alignItems={"center"} spacing={4} pr={4} borderRight={"1px solid #E3E5ED"} >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,19 +107,19 @@ const Register = () => {
 
           <Stack height={"24px"} ></Stack>
 
-          <Input label={"الايميل"} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"email"} register={register} registerName={"email"} />
+          <Input label={isEn ? "Email" :"الايميل"} required={true} error={errors?.email?.message || (invalid?.email && invalid?.email[0])} type={"email"} register={register} registerName={"email"} />
 
           <Stack height={"24px"} ></Stack>
 
-          <Input label={"كلمة المرور"} required={true} error={errors?.password?.message || (invalid?.password && invalid?.password[0])} type={"password"} register={register} registerName={"password"} />
+          <Input label={isEn ? "Password" :"كلمة المرور"} required={true} error={errors?.password?.message || (invalid?.password && invalid?.password[0])} type={"password"} register={register} registerName={"password"} />
 
           <Button disabled={loading} variant="contained" sx={{p : "15px 0" , borderRadius : "8px" , width : "100%" , mt : 20 , height : "58px"}} onClick={handleSubmit(onSubmit)} >
-            {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >تسجيل</Typography>}
+            {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >{isEn ? "Register" :"تسجيل"}</Typography>}
           </Button>
 
           <Stack direction={"row"} spacing={4} justifyContent={"center"} mt={12} >
-            <Typography variant="subtitle" color={"text.secondary"} > تملك حساب بالفعل ؟ </Typography>
-            <Typography variant="subtitle" > <Link to={"/login"} >  دخول </Link> </Typography>
+            <Typography variant="subtitle" color={"text.secondary"} > {isEn ? "Already have account?" :"تملك حساب بالفعل ؟"} </Typography>
+            <Typography variant="subtitle" > <Link to={"/login"} > {isEn ? "Login" :"تسجيل دخول"} </Link> </Typography>
           </Stack>
           
         </Box>  

@@ -6,6 +6,7 @@ import { useIsAuthenticated, useSignIn } from "react-auth-kit";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
+import useLang from "../../hooks/useLang";
 
 const Login = () => {
 
@@ -49,35 +50,44 @@ const Login = () => {
       .finally(() => setLoading(false))
     }
 
+    const isEn = useLang()
+
   return (
       <Stack position={"relative"} pt={20} zIndex={2} alignItems={"center"} bgcolor={"#ECF1F6"} >
         <Box p={{xs : "20px" , sm : "40px"}} bgcolor={"#FCFDFD"} borderRadius={"16px"} width={{xs : "350px" , sm : "530px"}} mb={24} textAlign={"center"} >
 
           <img src={logo} width={170} alt="Logo" />
 
-          <Typography variant="h2" mt={8} mb={0} textAlign={"center"} > مرحبا بعودتك </Typography>
-          <Typography mb={20} textAlign={"center"} color={"#434E58"} > املأ بيانات حسابك فى الاسفل </Typography>
+          <Typography variant="h2" mt={8} mb={0} textAlign={"center"} > {isEn ? "Welcome Back" : "مرحبا بعودتك"} </Typography>
+          <Typography mb={20} textAlign={"center"} color={"#434E58"} > {isEn ? "Enter your details below" :"املأ بيانات حسابك فى الاسفل"} </Typography>
 
-          <Input label={"الايميل"} required={true} error={errors?.email_or_mobile?.message || (invalid?.email_or_mobile && invalid?.email_or_mobile[0])} type={"email"} register={register} registerName={"email_or_mobile"} />
+          <Input label={isEn ? "Email" : "الايميل"} required={true} error={errors?.email_or_mobile?.message || (invalid?.email_or_mobile && invalid?.email_or_mobile[0])} type={"email"} register={register} registerName={"email_or_mobile"} />
 
           <Stack height={"24px"} ></Stack>
 
-          <Input label={"كلمة المرور"} required={true} error={errors?.password?.message || (invalid?.password && invalid?.password[0])} type={"password"} register={register} registerName={"password"} />
+          <Input label={isEn ? "Password" : "كلمة المرور"} required={true} error={errors?.password?.message || (invalid?.password && invalid?.password[0])} type={"password"} register={register} registerName={"password"} />
 
           <Button disabled={loading} variant="contained" sx={{p : "15px 0" , borderRadius : "8px" , width : "100%" , mt : 20 , height : "58px"}} onClick={handleSubmit(onSubmit)} >
-            {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >دخول</Typography>}
+            {loading ? <CircularProgress /> : <Typography variant="button" color={"primary.white"} >{isEn ? "Login" :"دخول"}</Typography>}
           </Button>
 
-          {invalid && <Typography color={"error"} textAlign={"center"} mt={5} fontWeight={500} > الايميل او كلمة المرور غير صالحين </Typography>}
+          {invalid && <Typography color={"error"} textAlign={"center"} mt={5} fontWeight={500} >
+            {isEn ? "Email or password is invalid" : "الايميل او كلمة المرور غير صالحين "}
+          </Typography>}
 
           {/* <Typography variant="subtitle" display={"block"} textAlign={"center"} mt={16} > 
             <Link to={"/forget-password"} >نسيت كلمة المرور ؟</Link> 
           </Typography> */}
 
+          {isEn ? 
+          <Stack direction={"row"} spacing={4} justifyContent={"center"} mt={16} >
+            <Typography variant="subtitle" color={"text.secondary"} > {isEn ? "You Are New Here" : "انت جديد هنا ؟"} </Typography>
+            <Typography variant="subtitle" > <Link to={"/sign-up"} >  {isEn ? "Register" : "تسجيل"} </Link> </Typography>
+          </Stack>:
           <Stack direction={"row"} spacing={4} justifyContent={"center"} mt={16} >
             <Typography variant="subtitle" color={"text.secondary"} > انت جديد هنا ؟ </Typography>
             <Typography variant="subtitle" > <Link to={"/sign-up"} >  تسجيل </Link> </Typography>
-          </Stack>
+          </Stack>}
           
         </Box>  
       </Stack>

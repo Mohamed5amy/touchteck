@@ -4,16 +4,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import useLang from "../../hooks/useLang";
 
 export default function AlertDialog({ open, setOpen, message, type, fn }) {
     const handleClose = () => {
         setOpen(false);
     };
 
+    const isEn = useLang()
+
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle textTransform={"capitalize"}>
-                {type === "delete" ? "حذف" : type}
+                {isEn ? "Delete" : "حذف"}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -26,7 +29,7 @@ export default function AlertDialog({ open, setOpen, message, type, fn }) {
                     sx={{ px: 20 }}
                     onClick={handleClose}
                 >
-                    الغاء
+                    {isEn ? "Cancel" :"الغاء"}
                 </Button>
                 <Button
                     variant="contained"
@@ -35,7 +38,7 @@ export default function AlertDialog({ open, setOpen, message, type, fn }) {
                     autoFocus
                     color={type === "delete" ? "error" : "primary"}
                 >
-                    حذف
+                    {isEn ? "Delete" :"حذف"}
                 </Button>
             </DialogActions>
         </Dialog>

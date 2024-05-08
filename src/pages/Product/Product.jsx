@@ -14,6 +14,7 @@ import { useIsAuthenticated } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { ToastContainer, toast } from 'react-toastify';
+import useLang from "../../hooks/useLang";
 
 
 
@@ -98,66 +99,55 @@ const Product = () => {
   } , [product])
 
   const handleAddToCart = () => {
+
     setLoading(true)
+
     if(isAuthenticated()) {
-      colors?.map((color , i) => {
-        axios
-        .post(import.meta.env.VITE_API + "addProductToCart", {
-          product_id : product.id,
-          count : color.count,
-          color_id : color.id,
-          price : product.price,
-          plus : 1
-        } , {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
+      if (colors.length > 0) {
+        colors?.map((color , i) => {
+          axios
+          .post(import.meta.env.VITE_API + "addProductToCart", {
+            product_id : product.id,
+            count : color.count,
+            color_id : color.id,
+            price : product.price,
+            plus : 1
+          } , {
+              headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+          })
+          .then((res) => {
+              console.log(res.data.data);
+              setOnCart(true)
+              dispatch(ADD_CART(res.data.data.Cart.products))
+              i + 1 == colors.length && toast.success(isEn ? "Product has been added to cart" : "تمت اضافة المنتج بنجاح")
+          })
+          .catch((err) => {
+              console.log(err);
+          })
+          .finally(() => i + 1 == colors.length && setLoading(false));
         })
-        .then((res) => {
-            console.log(res.data.data);
-            setOnCart(true)
-            dispatch(ADD_CART(res.data.data.Cart.products))
-            i + 1 == colors.length && toast.success("تمت اضافة المنتجات بنجاح")
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-        .finally(() => i + 1 == colors.length && setLoading(false));
-      })
+      } else {
+        toast.error(isEn ? "Please select how many pieces do you want" : "من فضلك اختر كم قطعة تريد من المنتج")
+        setLoading(false)
+      }
     } else {
       navigate("/login")
     }
     console.log(colors)
   }
 
-  // Remove From Cart
-  // const handleDel = () => {
-  //   setLoading(true)
-  //   axios
-  //       .post(import.meta.env.VITE_API + "removeProductFromCart", {product_id : product.id} , {
-  //           headers: {
-  //               Authorization: "Bearer " + localStorage.getItem("token"),
-  //           },
-  //       })
-  //       .then((res) => {
-  //           console.log(res.data.data);
-  //           dispatch(DEL_CART(product.id))
-  //           setOnCart(false)
-  //       })
-  //       .catch((err) => {
-  //           console.log(err);
-  //       })
-  //       .finally(() => setLoading(false));
-  // }
+  const isEn = useLang()
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} >
       <Breadcrumbs separator=">" sx={{mb : 12}}>
         <Link underline="hover" to="/">
-          <Typography color={"primary"} variant="breadcrumbs" > الرئيسية </Typography>
+          <Typography color={"primary"} variant="breadcrumbs" > {isEn ? "Home" :"الرئيسية"} </Typography>
         </Link>
         <Link underline="hover" to="/products">
-          <Typography color={"primary"} variant="breadcrumbs" > المنتجات </Typography>
+          <Typography color={"primary"} variant="breadcrumbs" > {isEn ? "Products" :"المنتجات"} </Typography>
         </Link>
         <Typography color="text.secondary" variant="breadcrumbs"> {product?.title} </Typography>
       </Breadcrumbs>
@@ -166,10 +156,10 @@ const Product = () => {
           <ImageGallery items={images && images} thumbnailPosition="bottom" autoPlay="true" showBullets={false} showNav={false} showPlayButton={false} isRTL={true} />
           {/* Des */}
           <Stack mt={16} spacing={8} >
-            <Typography variant="title" > مواصفات المنتج </Typography>
+            <Typography variant="title" > {isEn ? "Product Description" : "مواصفات المنتج"} </Typography>
             <Stack direction={"row"} alignItems={"center"}>
-              <ArrowLeftIcon color="primary" />
-              <Typography variant="subtitle" > العلامة التجارية : </Typography>
+              <ArrowLeftIcon color="primary" sx={{rotate : isEn ? "180deg" : "0deg" }} />
+              <Typography variant="subtitle" > {isEn ? "Brand" : "العلامة التجارية"} : </Typography>
               &nbsp;&nbsp;
               <Typography variant="subtitle" color={"text.third"} > {product?.brand_title} </Typography>
             </Stack> 
@@ -177,7 +167,7 @@ const Product = () => {
               return (
                 <Stack direction={"row"} alignItems={"center"} key={option.id} >
                   <ArrowLeftIcon color="primary" />
-                  <Typography variant="subtitle" > {option.title} : </Typography>
+                  <Typography variant="subtitle" > {isEn ? option.title : option.title_ar} : </Typography>
                   &nbsp;&nbsp;
                   <Typography variant="subtitle" color={"text.third"} > {option.option} </Typography>
                 </Stack> 
@@ -186,12 +176,16 @@ const Product = () => {
           </Stack>
         </Grid>
         <Grid item xs={12} md={5.5}>
-          <Typography variant="h2" mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.title}</Typography>
+          <Typography variant="h2" mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>
+            {isEn ? product?.title : product?.title_ar}
+          </Typography>
           <Typography variant="h2" color={"primary"} mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.price} ₪</Typography>
-          <Typography color={"#66707A"} mb={4} fontSize={14} sx={{textTransform : "capitalize"}}>{product?.description}</Typography>
+          <Typography color={"#66707A"} mb={4} fontSize={14} sx={{textTransform : "capitalize"}}>
+            {isEn ? product?.description : product?.description_ar}
+          </Typography>
           {/* Quantity */}
           <Stack mt={8} direction={"row"} alignItems={"center"} spacing={{xs : 2 , sm : 10}} mb={16} >
-            <Button variant="contained" sx={{py : 8 , borderRadius: "8px" , flex : 1}} onClick={() => handleAddToCart()} startIcon={<ShoppingCartRoundedIcon sx={{ display : {xs : "none" , sm  :"block"} }} />} disabled={loading}> اضافة لعربة التسوق </Button>
+            <Button variant="contained" sx={{py : 8 , borderRadius: "8px" , flex : 1}} onClick={() => handleAddToCart()} startIcon={<ShoppingCartRoundedIcon sx={{ display : {xs : "none" , sm  :"block"} }} />} disabled={loading}> {isEn ? "Add To Cart" : "اضافة لعربة التسوق"} </Button>
             <IconButton size="large" className={checkFav ? "active" : ""} sx={{color : "#9EA7B8" , "&:hover , &.active" : {color : "red"}}} color="error" onClick={() => addToFav()}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -253,8 +247,8 @@ const Product = () => {
                   d="M8 22a2 2 0 100-4 2 2 0 000 4zM16 22a2 2 0 100-4 2 2 0 000 4zM22 12v2h-3c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1.29L22 12zM2 8h6M2 11h4M2 14h2"
                 ></path>
               </svg>
-              <Typography variant="subtitle" color={"text.third"} > يتم بيعه و شحنه عن طريق : </Typography>
-              <Typography variant="subtitle" color={"secondary"} > تاتش تك </Typography>
+              <Typography variant="subtitle" color={"text.third"} > {isEn ? "Sold and shipped by" : "يتم بيعه و شحنه عن طريق"} : </Typography>
+              <Typography variant="subtitle" color={"secondary"} > {isEn ? "Touch Tech" : "تاتش تك"} </Typography>
             </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={4}>
               <svg
@@ -273,8 +267,8 @@ const Product = () => {
                   d="M10.66 14.23c-.19 0-.38-.07-.53-.22L8.52 12.4a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l1.08 1.08 3.77-3.77c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-4.3 4.3c-.15.15-.34.22-.53.22z"
                 ></path>
               </svg>
-              <Typography variant="subtitle" color={"text.third"} > الضمان : </Typography>
-              <Typography variant="subtitle" color={"secondary"} > يبدأ عند البيع مباشرة </Typography>
+              <Typography variant="subtitle" color={"text.third"} > {isEn ? "Warranty" : "الضمان"} : </Typography>
+              <Typography variant="subtitle" color={"secondary"} > {isEn ? "Start on sale" : "يبدأ عند البيع مباشرة"} </Typography>
             </Stack>
           </Stack>
         </Grid>
@@ -288,9 +282,11 @@ const Product = () => {
 
 const Colors = ({productColors , colors , setColors}) => {
   
+  const isEn = useLang()
+
   return (
     <Stack mb={12}>
-      <Typography variant="title" > الالوان المتاحة </Typography>
+      <Typography variant="title" > {isEn ? "Available Colors" : "الالوان المتاحة"} </Typography>
       <Grid container mt={8} spacing={8} >
         {productColors?.map(color => {
           return (
@@ -305,13 +301,13 @@ const Colors = ({productColors , colors , setColors}) => {
 const Color = ({color , colors , setColors}) => {
 
   const [counter, setCounter] = useState(0)
-
+  const isEn = useLang()
 
   return (
     <Grid item xs={6} sm={4} >
       <Stack direction={"row"} alignItems={"center"} spacing={4} mb={4} >
         <Box width={20} height={20} bgcolor={color.color} borderRadius={"50%"} border={"1px solid gray"}></Box>
-        <Typography variant="subtitle" color={"text.third"} > {color.title} </Typography>
+        <Typography variant="subtitle" color={"text.third"} > {isEn ? color.title : color.title_ar } </Typography>
       </Stack>
       <TextField select fullWidth value={counter} onChange={e => {
         setCounter(e.target.value)
@@ -339,7 +335,6 @@ const Color = ({color , colors , setColors}) => {
   )
 }
 
-
 const Products = ({catId}) => {
 
   const [products, setProducts] = useState([])
@@ -362,9 +357,11 @@ const Products = ({catId}) => {
         })
   }, [catId]);
   
+  const isEn = useLang()
+  
   return (
     <Stack pt={30} pb={60} >
-      <Header title={"منتجات مشابهة"} />
+      <Header title={isEn ? "Similar Products" : "منتجات مشابهة"} />
       <Stack height={32}></Stack>
       <Grid container spacing={15}>
         {products?.slice(0 , 4).map(product => {

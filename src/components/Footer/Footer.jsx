@@ -7,11 +7,14 @@ import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import qr from "../../images/qr.svg"
 import apple from "../../images/apple.svg"
 import playstore from "../../images/playstore.svg"
+import useLang from "../../hooks/useLang";
 
 const Footer = () => {
   
   const d = new Date();
   let year = d.getFullYear();
+  
+  const isEn = useLang()
   
   return (
     <Stack bgcolor={"#042036"} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} py={12} >
@@ -19,31 +22,30 @@ const Footer = () => {
         <Grid item xs={12} sm={6} md={4} lg={3} >
           <Stack spacing={12} > 
             <img src={logo} alt="Logo" width={100} /> 
-            <Typography fontSize={15} lineHeight={"150%"} color={"#DDD"} >Touch Tech هو متجرك الشامل لأحدث وأروع الأجهزة. استكشف مجموعتنا الواسعة من المنتجات عالية التقنية واستمتع بأفضل الأسعار والخدمات.</Typography> 
+            <Typography fontSize={15} lineHeight={"150%"} color={"#DDD"} >{isEn ? "Touch Tech is your one-stop shop for the latest and coolest gadgets. Explore our wide range of high-tech products and enjoy the best prices and service." :"Touch Tech هو متجرك الشامل لأحدث وأروع الأجهزة استكشف مجموعتنا الواسعة من المنتجات عالية التقنية واستمتع بأفضل الأسعار والخدمات."}</Typography> 
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} >
-          <Typography fontSize={18} fontWeight={700} color={"#FFF"} > روابط </Typography>
+          <Typography fontSize={18} fontWeight={700} color={"#FFF"} > {isEn ? "Links" :"روابط"} </Typography>
           <Stack color={"#DDD"} fontSize={15} lineHeight={"150%"} spacing={4} mt={4} >
-            <Link to={"/"} > الرئيسية </Link>
-            <Link to={"/products"} > منتجاتنا </Link>
-            <Link to={"/about"} > من نحن </Link>
-            <Link to={"/brands"} > علامتنا التجارية </Link>
+            <Link to={"/"} > {isEn ? "Home" :"الرئيسية"} </Link>
+            <Link to={"/products"} > {isEn ? "Products" : "منتجاتنا"} </Link>
+            <Link to={"/brands"} > {isEn ? "Our Brands" : "علامتنا التجارية "}</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} >
-          <Typography fontSize={18} fontWeight={700} color={"#FFF"} > معلومات </Typography>
+          <Typography fontSize={18} fontWeight={700} color={"#FFF"} > {isEn ? "Information" :"معلومات"} </Typography>
           <Stack color={"#DDD"} fontSize={15} lineHeight={"140%"} spacing={4} mt={4} >
-            <Link to={"/contact"}> تواصل معنا </Link>
-            <Link to={"/policy"}> سياستنا </Link>
+            <Link to={"/contact"}> {isEn ? "Contact" :"تواصل معنا "}</Link>
+            <Link to={"/about"} > {isEn ? "About" : "من نحن "}</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} >
-          <Typography fontSize={18} fontWeight={700} color={"#fff"} > معلومات الاتصال </Typography>
+          <Typography fontSize={18} fontWeight={700} color={"#fff"} > {isEn ? "Contact Info" :"معلومات الاتصال"} </Typography>
           <Stack mt={4} spacing={2} color={"#DDD"} >
             <Stack direction={"row"} spacing={4} alignItems={"start"} >
               <a href="https://www.google.com/maps/search/Palestine-Nablus+-+Al-makhfiya+main+St-/@32.2243079,35.2270797,14z/data=!3m1!4b1?entry=ttu"target="_blank" rel="noreferrer" ><IconButton color="secondary" > <LocationOnOutlinedIcon /> </IconButton></a>
-              <Typography variant="subtitle" maxWidth={200} > فلسطين - نابلس - شارع المخفية الرئيسي-مقابل ديوان كوني </Typography>
+              <Typography variant="subtitle" maxWidth={200} > {isEn ? "Palestine-Nablus - Al-makhfiya main St- opposite Diwan kwny" :"فلسطين - نابلس - المخفيه بجانب صحة المخفيه - مقابل ديوان الكوني"}</Typography>
             </Stack>
             <Stack direction={"row"} spacing={4} alignItems={"center"} >
               <a href="tel:009792347767"><IconButton color="secondary" > <LocalPhoneOutlinedIcon /> </IconButton></a>
@@ -56,7 +58,7 @@ const Footer = () => {
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} >
-          <Typography fontSize={20} fontWeight={500} color={"#FFF"} > تحميل التطبيق </Typography>
+          <Typography fontSize={20} fontWeight={500} color={"#FFF"} > {isEn ? "Download App" :"تحميل التطبيق"} </Typography>
           <Stack mt={8} direction={"row"} spacing={6} >
             <img src={qr} alt="Qr Code" />
             <Stack spacing={6} flex={1} minWidth={100} maxWidth={100} >
@@ -68,40 +70,24 @@ const Footer = () => {
       </Grid>
       <Stack alignItems={"center"} pt={8} borderTop={"1px solid"} borderColor={"#66707A"} direction={{xs : "column" , sm : "row"}} justifyContent={"space-between"} spacing={8} >
         <Typography fontSize={{xs : 14 , sm : 16}} fontWeight={600} color={"#DDD"} > 
-        تاتش تيك. جميع الحقوق محفوظة {year} © 
+        {isEn ? `© ${year} Touch Tech. All Rights Reserved` :`تاتش تيك. جميع الحقوق محفوظة ${year} ©`}
         </Typography>
         <Stack direction={"row"} spacing={8} className="socialFooter" >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              fill="currentColor"
-              d="M9 0C4.037 0 0 4.037 0 9c0 4.962 4.037 9 9 9 4.962 0 9-4.038 9-9 0-4.963-4.037-9-9-9zm2.238 9.317H9.774v5.219h-2.17v-5.22H6.573V7.473h1.031V6.28c0-.854.406-2.19 2.19-2.19l1.608.007v1.79h-1.167c-.19 0-.46.095-.46.503v1.084h1.653l-.19 1.844z"
-            ></path>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <g clipPath="url(#clip0_150_7230)">
+          <a href="https://www.facebook.com/touchtechpal?mibextid=LQQJ4d" target="_blank" rel="noreferrer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
               <path
                 fill="currentColor"
-                d="M9 0a9.001 9.001 0 000 18A9.001 9.001 0 009 0zm4.11 7.017c.003.089.005.178.005.267 0 2.73-2.078 5.878-5.877 5.878a5.847 5.847 0 01-3.167-.928 4.144 4.144 0 003.058-.856A2.068 2.068 0 015.2 9.943a2.056 2.056 0 00.934-.035 2.066 2.066 0 01-1.657-2.025v-.026c.287.16.607.248.935.258a2.064 2.064 0 01-.64-2.758A5.865 5.865 0 009.03 7.515a2.066 2.066 0 013.52-1.884c.463-.09.906-.26 1.312-.5a2.074 2.074 0 01-.909 1.142 4.12 4.12 0 001.187-.326 4.2 4.2 0 01-1.03 1.07z"
+                d="M9 0C4.037 0 0 4.037 0 9c0 4.962 4.037 9 9 9 4.962 0 9-4.038 9-9 0-4.963-4.037-9-9-9zm2.238 9.317H9.774v5.219h-2.17v-5.22H6.573V7.473h1.031V6.28c0-.854.406-2.19 2.19-2.19l1.608.007v1.79h-1.167c-.19 0-.46.095-.46.503v1.084h1.653l-.19 1.844z"
               ></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_150_7230">
-                <path fill="currentColor" d="M0 0H18V18H0z"></path>
-              </clipPath>
-            </defs>
-          </svg>
+            </svg>
+          </a>
+          <a href="https://api.whatsapp.com/send?phone=+972594050740&text=Welcome%20To Touch%20Tech" target="_blank" rel="noreferrer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -119,6 +105,8 @@ const Footer = () => {
               </clipPath>
             </defs>
           </svg>
+          </a>
+          <a href="https://www.instagram.com/touchtech.ps/?igsh=MWgyMzk1MGlsemxjOA%3D%3D" target="_blank" rel="noreferrer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -137,25 +125,45 @@ const Footer = () => {
               </clipPath>
             </defs>
           </svg>
+          </a>
+          <a href="https://www.tiktok.com/@ps.touch.tech?_t=8mA180UD7CK&_r=1" target="_blank" rel="noreferrer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="18"
+            width="19"
             height="18"
             fill="none"
-            viewBox="0 0 18 18"
+            viewBox="0 0 19 18"
           >
-            <g clipPath="url(#clip0_150_7242)">
-              <path
-                fill="currentColor"
-                d="M9 0a9 9 0 100 18A9 9 0 009 0zM6.383 13.737H4.419V7.412h1.964v6.325zM5.4 6.549a1.143 1.143 0 11-.01-2.286A1.143 1.143 0 015.4 6.55zm8.337 7.188h-1.962v-3.08c0-.733-.015-1.675-1.021-1.675-1.007 0-1.184.798-1.184 1.623v3.132H7.614V7.412H9.5v.862h.027c.261-.497.902-1.022 1.858-1.022 1.987 0 2.353 1.31 2.353 3.01v3.475z"
-              ></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_150_7242">
-                <path fill="currentColor" d="M0 0H18V18H0z"></path>
-              </clipPath>
-            </defs>
+            <rect width="18" height="18" x="0.25" fill="currentColor" rx="9"></rect>
+            <path
+              fill="#0A5C99"
+              d="M8.316 8.095v-.651a3.607 3.607 0 00-.512-.044 3.796 3.796 0 00-2.176 6.911 3.792 3.792 0 01-.724-4.06c.581-1.379 1.917-2.123 3.412-2.156z"
+            ></path>
+            <path
+              fill="#0A5C99"
+              d="M8.408 13.46c.98.388 1.691-.733 1.732-1.66V3.523h1.512A2.841 2.841 0 0111.608 3H9.54v8.268c-.035.932-.8 1.67-1.732 1.671a1.816 1.816 0 01-.814-.195c-.074.263.446.975 1.414.715zm6.068-7.128v-.46c-.557 0-1.1-.164-1.564-.472.406.472.955.8 1.564.932z"
+            ></path>
+            <path
+              fill="#0A5C99"
+              d="M11.608 11.204V7c.837.6 1.842.922 2.872.92v-1.6a2.867 2.867 0 01-1.568-.92 2.864 2.864 0 01-1.26-1.88H10.14v8.28a1.736 1.736 0 01-3.14.948 1.736 1.736 0 01.8-3.272c.174.001.346.028.512.08v-1.6a3.792 3.792 0 00-2.688 6.4c.643.434 1.404.659 2.18.644 2.098 0 3.8-1.699 3.804-3.796z"
+            ></path>
           </svg>
+          </a>
+          <a href="https://t.me/TouchTech0" target="_blank" rel="noreferrer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="18"
+            fill="currentColor"
+            viewBox="0 0 19 18"
+          >
+            <rect width="18" height="18" x="0.75" fill="currentColor" rx="9"></rect>
+            <path
+              fill="#0A5C99"
+              d="M7.709 10.59l-.199 2.793c.284 0 .407-.122.555-.269l1.331-1.272 2.76 2.02c.506.282.862.134.999-.465l1.81-8.486c.161-.748-.27-1.041-.762-.858L3.557 8.13c-.726.282-.715.687-.123.87l2.721.847 6.322-3.956c.298-.197.568-.088.346.11l-5.114 4.59z"
+            ></path>
+          </svg>
+          </a>
         </Stack>
       </Stack>
     </Stack>

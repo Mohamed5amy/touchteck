@@ -193,15 +193,39 @@ fieldset {
 
 
 
-
-.image-gallery-slide , .image-gallery-image {
-  min-height: 400px !important;
-  max-height: 500px !important;
+// Image Slider
+.image-gallery-bullet {
+  &.active {
+    background-color: $main !important;
+  }
+  &:hover {
+    background-color: $secondary !important;
+  }
 }
-
+.image-gallery-slides {
+  @include rad(8px);
+}
+.image-gallery-thumbnail {
+  img { 
+    height: 80px;
+    object-fit: contain;
+  }
+}
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:focus , .image-gallery-thumbnail:hover {
+  border: 3px solid $main !important;
+}
+.image-gallery-thumbnails-wrapper.image-gallery-thumbnails-left .image-gallery-thumbnails .image-gallery-thumbnail {
+  @include rad(8px !important);
+  overflow: hidden !important;
+}
+.image-gallery-slide , .image-gallery-image {
+  // min-height: 400px !important;
+  height: 500px !important;
+  // max-height: 500px !important;
+}
 .image-gallery-content.fullscreen {
   .image-gallery-slide , .image-gallery-image {
-    max-height: 100vh !important;
+    height: 100vh !important;
   }
 }
 
