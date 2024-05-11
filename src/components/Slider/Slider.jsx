@@ -9,7 +9,7 @@ import { Stack } from "@mui/material";
 
 const Slider = ({slides}) => {
   return (
-    <Stack position={"relative"} width={"100%"} height={{xs : "200px" , md : "525px"}}>
+    <Stack position={"relative"} width={"100%"} height={{xs : "200px" , sm : "350px" , md : "525px"}}>
       <Swiper
         pagination={{clickable : true}} 
         modules={[Pagination ,Autoplay]} 

@@ -22,8 +22,7 @@ const Cart = ({active , setActive}) => {
             },
         })
         .then((res) => {
-            console.log(res.data.data);
-            dispatch(GET_CARTS(res.data.data.Cart.products))
+            dispatch(GET_CARTS(res.data.data.Cart?.products))
         })
         .catch((err) => {
             console.log(err);

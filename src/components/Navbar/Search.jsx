@@ -18,7 +18,6 @@ const Search = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Product);
             setProducts(res.data.data.Product);
         })
         .catch((err) => {

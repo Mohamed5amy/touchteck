@@ -139,6 +139,10 @@ const Product = () => {
   }
 
   const isEn = useLang()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  } , [])
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} >

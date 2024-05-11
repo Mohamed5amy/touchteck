@@ -22,7 +22,6 @@ const Navbar = () => {
         })
         .then((res) => {
             setCats(res.data.data.GeneralCategory);
-            console.log(res.data.data.GeneralCategory);
         })
         .catch((err) => {
             console.log(err);

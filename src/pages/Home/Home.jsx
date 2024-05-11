@@ -43,7 +43,6 @@ const Home = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Product);
             setProducts(res.data.data.Product);
         })
         .catch((err) => {
@@ -59,7 +58,6 @@ const Home = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Slide);
             setSlides(res.data.data.Slide);
         })
         .catch((err) => {
@@ -67,28 +65,6 @@ const Home = () => {
         })
         .finally(() => setLoading(false));
   }, []);
-  // Slide
-  const [slide, setSlide] = useState([])
-  useEffect(() => {
-    axios
-        .get(import.meta.env.VITE_API + "getSlideByType/4", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            console.log(res.data.data.Slide);
-            setSlide(res.data.data.Slide);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-        .finally(() => setLoading(false));
-  }, []);
-  // Scroll to top
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  } , [])
 
   const isEn = useLang()
 
@@ -106,11 +82,7 @@ const Home = () => {
       {/* Products */}
       <Products products={products} />
       {/* Second Image */}
-      {slide && <a href={slide[0]?.title} target="_blank" rel="noreferrer" >
-        <Stack mt={60} px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} height={{xs : "auto" , md : 525}}>
-          <img src={import.meta.env.VITE_LINK + slide[0]?.image} width={"100%"} alt="offers Image" />
-        </Stack>
-      </a>}
+      <Counter />
       {/* Best Selling */}
       <Best products={products} />
       {/* Partners */}
@@ -144,7 +116,6 @@ const Cats = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Category);
             setCats(res.data.data.Category);
         })
         .catch((err) => {
@@ -216,13 +187,11 @@ const VideoSlider = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Slide);
             setSlides(res.data.data.Slide);
         })
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => setLoading(false));
   }, []);
   
   return (
@@ -260,13 +229,11 @@ const ThickSlider = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Slide);
             setSlides(res.data.data.Slide);
         })
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => setLoading(false));
   }, []);
   
   return (
@@ -360,7 +327,6 @@ const Partners = () => {
             },
         })
         .then((res) => {
-            console.log(res.data.data.Brand);
             setBrands(res.data.data.Brand);
         })
         .catch((err) => {
@@ -536,6 +502,90 @@ const Features = () => {
         {isEn ? "We reurn money within 30 days" :"نقوم بإرجاع الأموال خلال 30 يومًا "}
         </Typography>
       </Box>
+    </Stack>
+  )
+}
+
+const Counter = () => {
+
+  const [counter, setCounter] = useState(null)
+
+  useEffect(() => {
+    axios
+        .get(import.meta.env.VITE_API + "counter", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            setCounter(res.data.data.Counter);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+  }, []);
+
+  const isEn = useLang()
+
+  let countDownDate = new Date("Jan 5, 2030 15:37:25").getTime();
+
+  const [hours, setHours] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+
+  const x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+  
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+  
+    // Time calculations for days, hours, minutes and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    setHours(hours)
+    setMinutes(minutes)
+    setSeconds(seconds)
+  
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+  
+  return (
+    counter?.active == 2 &&
+    <Stack px={{ xs : 10 , sm : 20 , md : 10 , lg : 70 }} pt={60}>
+      <Stack bgcolor={"primary.main"} p={"70px 48px"} borderRadius={"12px"} direction={{xs : "column" , md :"row"}} spacing={20} alignItems={"center"} justifyContent={"space-between"}>
+        <Stack flex={1}>
+          <Typography variant="title" color={"secondary"} mb={16} > {isEn ? counter?.product?.sub_category?.category?.name : counter?.product?.sub_category?.category?.name_ar } </Typography>
+          <Typography fontWeight={600} fontSize={{xs : 24 , sm : 48}} color={"#FAFAFA"} maxWidth={460} lineHeight={{xs : "40px", sm : "60px"}} mb={16} >{isEn ? counter?.title : counter?.title_ar}</Typography>
+          <Stack direction={isEn ? "row" : "row-reverse"} spacing={12} mb={20} width={"fit-content"}>
+            <Box bgcolor={"#FFF"} borderRadius={"50%"} width={62} height={62} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
+              <Typography variant="title" color={"#000"} lineHeight={"20px"}> {hours} </Typography>
+              <Typography fontSize={11} color={"#000"} lineHeight={"18px"}> {!isEn ? "ساعة" : "Hours"} </Typography>
+            </Box>
+            <Box bgcolor={"#FFF"} borderRadius={"50%"} width={62} height={62} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
+              <Typography variant="title" color={"#000"} lineHeight={"20px"}> {minutes} </Typography>
+              <Typography fontSize={11} color={"#000"} lineHeight={"18px"}> {!isEn ? "دقيقة" :"Minuts"} </Typography>
+            </Box>
+            <Box bgcolor={"#FFF"} borderRadius={"50%"} width={62} height={62} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
+              <Typography variant="title" color={"#000"} lineHeight={"20px"}> {seconds} </Typography>
+              <Typography fontSize={11} color={"#000"} lineHeight={"18px"}> {!isEn ? "ثانية" : "Seconds"} </Typography>
+            </Box>
+          </Stack>
+          <Link to={ "/products/" + counter?.product?.id} >
+            <Button variant="contained" color="secondary" sx={{width : "fit-content" , p : {xs : "16px 60px" , sm : "16px 100px"} , borderRadius : "12px"}} >{isEn ? "Buy Now!" : "اشتري الان!"}</Button>
+          </Link>
+        </Stack>
+        <Stack flex={1} position={"relative"} alignItems={"center"}>
+          <img src={import.meta.env.VITE_LINK + counter?.product?.images[0]?.url} alt="" width={"100%"} style={{objectFit : "contain" , position : "relative" , zIndex : 2 , maxWidth : "450px"}} />
+          <Stack position={"absolute"} borderRadius={"504px"} width={"100%"} height={"100%"} sx={{opacity : ".3" , filter : "blur(100px)"}} bgcolor={"#D9D9D9"} zIndex={1} left={0} top={0}></Stack>
+        </Stack>
+      </Stack>
     </Stack>
   )
 }
