@@ -245,11 +245,11 @@ const Category = ({setCatId , setSubCatId , setOptions , setFilters}) => {
             {gCats?.map((gCat , i) => {
               return (
                 <Fragment key={i}>
-                  <Typography variant="breadcrumbs" color={"text.secondary"} > {gCat.name} </Typography>
+                  <Typography variant="breadcrumbs" color={"text.secondary"} > {isEn ? gCat.name : gCat.name_ar} </Typography>
                   {gCat?.categories?.map(cat => {
                     return (
                       <Fragment key={cat.id}>
-                        <FormControlLabel value={cat.id} control={<Radio />} label={cat.name} onChange={e => {
+                        <FormControlLabel value={cat.id} control={<Radio />} label={isEn ? cat.name : cat.name_ar} onChange={e => {
                           setSubCatId("")
                           setChecked(e.target.checked)
                           setcatId(cat.id)
@@ -261,7 +261,7 @@ const Category = ({setCatId , setSubCatId , setOptions , setFilters}) => {
                         <RadioGroup sx={{pl : 8}}>
                         {cat?.sub_categories?.map(sub => {
                           return (
-                            <FormControlLabel key={sub.id} value={sub.id} control={<Radio />} label={sub.title} onChange={() => {
+                            <FormControlLabel key={sub.id} value={sub.id} control={<Radio />} label={isEn ? sub.title : sub.title_ar} onChange={() => {
                               setFilters([])
                               setOptions([])
                               setSubCatId([sub.id])
@@ -409,12 +409,14 @@ const Options = ({subId , setFilters , filters , options , setOptions}) => {
             console.log(err);
         })
   }, [subId , filters]);
+
+  const isEn = useLang()
   
   return (
     options?.map(option => {
       return (
         <Accordion key={option.id}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {option.title} </AccordionSummary>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? option.title : option.title_ar} </AccordionSummary>
           <AccordionDetails>
             <FormControl>
               <RadioGroup>

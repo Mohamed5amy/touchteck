@@ -314,12 +314,12 @@ const ProductsList = ({products}) => {
 }
 
 const Options = ({setFilters , filters , options}) => {
-  
+  const isEn = useLang()
   return (
     options?.map(option => {
       return (
         <Accordion key={option.id}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {option.title} </AccordionSummary>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? option.title : option.title_ar} </AccordionSummary>
           <AccordionDetails>
             <FormControl>
               <RadioGroup>

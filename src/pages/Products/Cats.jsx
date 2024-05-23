@@ -243,7 +243,7 @@ const Category = ({setCatId , setSubCatId , setOptions , setFilters , subId}) =>
                   <RadioGroup>
                   {cat?.sub_categories?.map(sub => {
                     return (
-                      <FormControlLabel key={sub.id} value={sub.id} control={<Radio checked={subId == sub.id} />} label={sub.title} onChange={() => {
+                      <FormControlLabel key={sub.id} value={sub.id} control={<Radio checked={subId == sub.id} />} label={isEn ? sub.title : sub.title_ar} onChange={() => {
                         setFilters([])
                         setOptions([])
                         setSubCatId([sub.id])
@@ -389,11 +389,13 @@ const Options = ({subId , setFilters , filters , options , setOptions}) => {
         })
   }, [subId , filters]);
   
+  const isEn = useLang()
+  
   return (
     options?.map(option => {
       return (
         <Accordion key={option.id}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {option.title} </AccordionSummary>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> {isEn ? option.title : option.title_ar} </AccordionSummary>
           <AccordionDetails>
             <FormControl>
               <RadioGroup>
