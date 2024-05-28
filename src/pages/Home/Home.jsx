@@ -17,8 +17,6 @@ import 'swiper/css/pagination';
 import { Pagination , Autoplay } from 'swiper/modules';
 
 import ReactPlayer from 'react-player/youtube'
-import { FloatingWhatsApp } from 'react-floating-whatsapp'
-import logoWhats from "../../images/logo.png"
 import useLang from "../../hooks/useLang";
 
 
@@ -89,12 +87,6 @@ const Home = () => {
       <Partners />
       {/* Features */}
       <Features />
-      <FloatingWhatsApp 
-        phoneNumber="123456789"
-        accountName="Touch Tech"
-        style={{direction : "ltr"}}
-        avatar={logoWhats}
-      />
     </Stack> : 
     <Stack position={"fixed"} top={0} left={0} alignItems={"center"} justifyContent={"center"} width={"100%"} height={"100vh"} bgcolor={"white"} zIndex={1000}>
       <img src={logo} alt="logo" width={300} />

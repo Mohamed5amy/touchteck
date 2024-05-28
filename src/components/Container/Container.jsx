@@ -11,6 +11,7 @@ const Container = ({children}) => {
         {children}
       </Stack>
       <Footer />
+      
     </Stack>
   ) 
 }

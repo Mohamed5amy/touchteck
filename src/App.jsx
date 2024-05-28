@@ -39,6 +39,9 @@ import Cats from "./pages/Products/Cats";
 import SCats from "./pages/Products/SCat";
 import useLang from "./hooks/useLang";
 
+import { FloatingWhatsApp } from 'react-floating-whatsapp'
+import logoWhats from "./images/logo.png"
+
 function App() {
 
   const isEn = useLang()
@@ -199,6 +202,12 @@ const MyApp = () => {
           <Route path="/sign-up/otp" element={ <ROTP /> } />
         </Routes>
       <Footer/>
+      <FloatingWhatsApp 
+        phoneNumber="+972594050740"
+        accountName="Touch Tech"
+        style={{direction : "ltr"}}
+        avatar={logoWhats}
+      />
     </BrowserRouter>
   )
 }
