@@ -28,43 +28,55 @@ const GCats = () => {
 
   const {id} = useParams()
 
+  const [pages, setPages] = useState({})
+  const [currenPage, setCurrenPage] = useState(1)
+
   useEffect(() => {
     setLoading(true)
     axios
-        .post(import.meta.env.VITE_API + "filterProducts", 
-        filters.length > 0 ? 
-        {
-          max_price : maxPrice,
-          min_price : minPrice,
-          categoriesIds : subCatId ? "" : catId,
-          brandsIds : brand,
-          subCategoriesIds : [
-            {
-              id : subCatId[0],
-              options : filters
-            }
-          ],
-        } : 
-        {
-          max_price : maxPrice,
-          min_price : minPrice,
-          categoriesIds : subCatId ? "" : catId,
-          brandsIds : brand,
-          subCategoriesIds : subCatId && [{id : subCatId}],
+        .get(import.meta.env.VITE_API + "filterProducts", {
+          params : filters.length > 0 ? 
+          {
+            max_price : maxPrice,
+            min_price : minPrice,
+            categoriesIds : subCatId ? "" : catId,
+            brandsIds : brand,
+            subCategoriesIds : [
+              {
+                id : subCatId[0],
+                options : filters
+              }
+            ],
+            page : currenPage
+          } : 
+          {
+            max_price : maxPrice,
+            min_price : minPrice,
+            categoriesIds : subCatId ? "" : catId,
+            brandsIds : brand,
+            subCategoriesIds : subCatId && [{id : subCatId}],
+            page : currenPage
+          } 
         } , {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
             },
         })
         .then((res) => {
-            setProducts(res.data.data.Product?.filter(pro => pro?.sub_category?.category?.gneral_category_id == id))
+            if (currenPage === 1) {
+              setProducts(res.data.data.Product.data);
+            } else {
+              setProducts(Object.values(res.data.data.Product.data));
+            }
+            setPages(res.data.data.Product);
+            // setProducts(res.data.data.Product?.data?.filter(pro => pro?.sub_category?.category?.gneral_category_id == id))
             console.log(res.data.data.Product)
         })
         .catch((err) => {
             console.log(err);
         })
         .finally(() => setLoading(false));
-  }, [maxPrice , minPrice , catId , subCatId , brand , filters , id]);
+  }, [maxPrice , minPrice , catId , subCatId , brand , filters , id , currenPage]);
 
   const [gCats, setGCats] = useState()
   useEffect(() => {
@@ -101,7 +113,7 @@ const GCats = () => {
           <Filter setCatId={setCatId} setSubCatId={setSubCatId} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} setBrand={setBrand} subId={subCatId} setFilters={setFilters} filters={filters} /> 
         </Grid>
         <Grid item xs={12} sm={7} md={8} lg={9}>
-          {loading ? <Stack alignItems={"center"} pt={24} ><CircularProgress /></Stack> : <ProductsList products={products} />}
+          {loading ? <Stack alignItems={"center"} pt={24} ><CircularProgress /></Stack> : <ProductsList products={products} pages={pages} currenPage={currenPage} setCurrenPage={setCurrenPage} />}
         </Grid>
       </Grid>
     </Stack>
@@ -362,14 +374,14 @@ const Brands = ({setBrand , brands}) => {
   )
 }
 
-const ProductsList = ({products}) => {
+const ProductsList = ({products , pages , currenPage , setCurrenPage}) => {
 
   const isEn = useLang()
   
   return (
     <Stack pl={{xs : 0 , sm : 20}} mt={{xs : 12 , sm : 0}} >
       {products.length > 0 && <Stack direction={{xs : "column" , md : "row"}} alignItems={{xs : "start" , md : "center"}} justifyContent={"space-between"} mb={8} spacing={4} >
-        <Typography variant="title" > {products?.length} <span style={{color : "#5F6177"}} >{isEn ? "product found" :"منتجات موجوده"}</span> </Typography>
+        <Typography variant="title" > {pages?.total} <span style={{color : "#5F6177"}} >{isEn ? "product found" :"منتجات موجوده"}</span> </Typography>
       </Stack>}
       {products.length > 0 ? <Grid container spacing={15} mb={24} >
         {products?.map((pro , i) => {
@@ -386,7 +398,9 @@ const ProductsList = ({products}) => {
           <Typography variant="h2" color={"#02111D"} textAlign={"center"} > {isEn ? "No products found" :"لا يوجد اي منتجات"} </Typography>
         </Stack>
       </Stack>}
-      {/* {products.length > 0 && <Stack alignItems={"center"} > <Pagination count={1} color="primary" defaultPage={1} /> </Stack>} */}
+      {products.length > 0 && <Stack alignItems={"center"}> 
+        <Pagination count={pages?.last_page} color="primary" defaultPage={1} onChange={(e , v) => setCurrenPage(v)} page={currenPage} /> 
+      </Stack>}
     </Stack>
   )
 }

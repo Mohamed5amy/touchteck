@@ -216,7 +216,7 @@ const GCategory = ({item , itemStyle , setNav}) => {
   
   return (
     <>
-      <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
+      <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={3} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
           <Typography variant="button" noWrap >{isEn ? item.name : item.name_ar}</Typography>
           <Link to={"/general-category/" + item?.id} onClick={() => {setNav(false) ; setActive(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
       </Stack>
@@ -238,7 +238,7 @@ const Category = ({cats , itemStyle , setNav}) => {
             <Stack spacing={4} direction={"row"} alignItems={"center"} height={"100%"} pl={16} py={7} color={"#434E58"} sx={itemStyle} position={"relative"} justifyContent={"space-between"} pr={4}
             onClick={() => {setActive(!active) ; setCatId(cat.id)}}>
               <Typography variant="button" noWrap display={"flex"} alignItems={"center"} > 
-                <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : "0deg"}} /> {isEn ? cat.name : cat.name_ar}
+                <ArrowLeftIcon style={{transition : ".5s" , rotate : (active && catId == cat.id) ? "-90deg" : (isEn ? "180deg" : "0deg")}} /> {isEn ? cat.name : cat.name_ar}
               </Typography>
               <Link to={"/category/" + cat?.id} onClick={() => {setNav(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
             </Stack>

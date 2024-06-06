@@ -68,7 +68,7 @@ const Search = () => {
               <Stack p={8} direction={"row"} spacing={8} sx={{transition : ".5s" , "&:hover" : {bgcolor : "#efefef"}}}>
                 <img src={"https://backend.touchtechco.com/public/" + pro?.images[0]?.url} alt="product" width={100} />
                 <Stack>
-                  <Typography color={"#02111D"} > {pro.title} </Typography>
+                  <Typography color={"#02111D"} > {isEn ? pro.title : pro.title_ar} </Typography>
                   <Typography fontSize={14} fontWeight={500} color={"text.third"} > {isEn ? "Price" : "السعر"} : {pro.price} </Typography>
                   <Typography fontSize={14} fontWeight={500} color={"secondary"} > {pro.brand_title} </Typography>
                 </Stack>
