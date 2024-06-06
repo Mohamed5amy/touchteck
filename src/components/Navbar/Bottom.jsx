@@ -94,9 +94,9 @@ const GCategory = ({item , itemStyle}) => {
 
   return (
     <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} color={"#434E58"} sx={itemStyle} position={"relative"} onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)} >
-      <Link to={"/general-category/" + item.id} >
+      {/* <Link to={"/general-category/" + item.id} > */}
         <Typography variant="button" color={"text.secondary"} noWrap >{isEn ? item.name : item.name_ar }</Typography>
-      </Link>
+      {/* </Link> */}
       {active && <Category cats={item?.categories} />}
     </Stack>
   )

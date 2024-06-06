@@ -218,7 +218,7 @@ const GCategory = ({item , itemStyle , setNav}) => {
     <>
       <Stack spacing={4} direction={"row"} alignItems={"center"} px={4} height={"100%"} pl={10} py={3} color={"#434E58"} sx={itemStyle} position={"relative"} onClick={() => setActive(!active)} justifyContent={"space-between"}>
           <Typography variant="button" noWrap >{isEn ? item.name : item.name_ar}</Typography>
-          <Link to={"/general-category/" + item?.id} onClick={() => {setNav(false) ; setActive(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link>
+          {/* <Link to={"/general-category/" + item?.id} onClick={() => {setNav(false) ; setActive(false)}} ><IconButton color="primary" > <LinkIcon /> </IconButton></Link> */}
       </Stack>
       {active && <Category cats={item?.categories} itemStyle={itemStyle} setNav={setNav} />}
     </>
