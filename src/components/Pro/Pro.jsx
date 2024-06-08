@@ -63,7 +63,7 @@ const Pro = ({product , fav , newP}) => {
 
           <Link to={`/products/${product.id}`} style={{position : "absolute" , left : "0" , top : 0 , width : "100%" , height : "100%"}}>
             <Stack p={{xs : "16px" , sm : "35px 50px"}} alignItems={"center"} justifyContent={"center"} height={"100%"} width={"100%"} > 
-              <img src={"https://backend.touchtechco.com/public/" + product?.images[0]?.url} alt="" />
+              <img src={"https://backend.touchtechco.com/public/" + product?.images[0]?.url} alt={product?.title} style={{maxHeight : "100%"}} />
             </Stack>
           </Link>
 

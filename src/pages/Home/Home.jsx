@@ -35,13 +35,14 @@ const Home = () => {
   // Products
   useEffect(() => {
     axios
-        .get(import.meta.env.VITE_API + "product", {
+        .get(import.meta.env.VITE_API + "filterProducts", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
             },
         })
         .then((res) => {
-            setProducts(res.data.data.Product);
+            setProducts(res.data.data.Product.data);
+            console.log(res.data.data)
         })
         .catch((err) => {
             console.log(err);
@@ -73,10 +74,10 @@ const Home = () => {
       <Slider slides={slides} />
       {/* Categories */}
       <Cats />
-      {/* Video Slider */}
-      <VideoSlider />
       {/* Thick Slider */}
       <ThickSlider />
+      {/* Video Slider */}
+      <VideoSlider />
       {/* Products */}
       <Products products={products} />
       {/* Second Image */}
