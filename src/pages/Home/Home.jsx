@@ -110,6 +110,7 @@ const Cats = () => {
         })
         .then((res) => {
             setCats(res.data.data.Category);
+            console.log(res.data.data.Category);
         })
         .catch((err) => {
             console.log(err);
@@ -155,7 +156,7 @@ const Cats = () => {
         {cats?.map(cat => {
           return (
             <SwiperSlide key={cat.id} >
-              <Link to={cat.id}>
+              <Link to={"/category/" + cat.id}>
                 <Stack height={120} border={"1px solid"} borderColor={"primary.border"} borderRadius={"12px"} alignItems={"center"} justifyContent={"center"} fontSize={20} p={12} fontWeight={800} textAlign={"center"}
                 sx={{transition : ".5s" , "&:hover" : {color : "primary.main" , borderColor : "primary.main"}}}> 
                 {isEn ? cat.name : cat.name_ar} </Stack>
