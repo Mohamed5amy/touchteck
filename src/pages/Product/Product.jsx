@@ -153,7 +153,7 @@ const Product = () => {
         <Link underline="hover" to="/products">
           <Typography color={"primary"} variant="breadcrumbs" > {isEn ? "Products" :"المنتجات"} </Typography>
         </Link>
-        <Typography color="text.secondary" variant="breadcrumbs"> {product?.title} </Typography>
+        <Typography color="text.secondary" variant="breadcrumbs"> {isEn ? product?.title : product?.title_ar} </Typography>
       </Breadcrumbs>
       {images && <Grid container spacing={20}>
         <Grid item xs={12} md={6.5}>

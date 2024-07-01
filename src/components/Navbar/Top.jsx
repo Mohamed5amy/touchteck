@@ -26,8 +26,8 @@ const Top = () => {
         {/* Left */}
         <Typography fontWeight={600} sx={{transition : ".5s" ,"&:hover" : {color : "primary.secondary" , cursor : "pointer"}}} flexDirection={isEnglish ? "row-reverse" : "row"} display={"flex"} alignItems={"center"} gap={4} onClick={() => handleLang()} > {isEnglish ? "Arabic" : "English"} <PublicIcon /> </Typography>
         {/* Right */}
-        {isEnglish ? <Typography display={{xs : "none" , md : "flex"}} variant="body" > Free delivery for all orders over $140 <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > Shop Now</strong> </Link> </Typography> :
-        <Typography display={{xs : "none" , md : "flex"}} variant="body" > التوصيل مجاني لجميع الطلبات التي تزيد قيمتها عن 140 دولارًا <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > تسوق الآن </strong> </Link> </Typography>}
+        {isEnglish ? <Typography display={{xs : "none" , md : "flex"}} variant="body" > Welcome to the world of Touch TECH, here technology meets creativity! <Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > Shop Now</strong> </Link> </Typography> :
+        <Typography display={{xs : "none" , md : "flex"}} variant="body" > أهلاً وسهلاً بكم في عالم Touch TECH، هنا تلتقي التكنولوجيا بالإبداع!<Link to={"/products"} > &nbsp; <strong style={{ textDecoration : "underline" }} > تسوق الآن </strong> </Link> </Typography>}
         {/* Middle */}
         <Stack direction={"row"} display={{xs : "none" , md : "block" }} spacing={8} className="socialFooter" >
           <a href="https://www.facebook.com/touchtechpal?mibextid=LQQJ4d" target="_blank" rel="noreferrer">

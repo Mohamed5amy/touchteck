@@ -74,18 +74,18 @@ const Home = () => {
       <Slider slides={slides} />
       {/* Categories */}
       <Cats />
-      {/* Thick Slider */}
-      <ThickSlider />
+      {/* Partners */}
+      <Partners />
       {/* Video Slider */}
       <VideoSlider />
+      {/* Thick Slider */}
+      <ThickSlider />
       {/* Products */}
       <Products products={products} />
       {/* Second Image */}
       <Counter />
       {/* Best Selling */}
       <Best products={products} />
-      {/* Partners */}
-      <Partners />
       {/* Features */}
       <Features />
     </Stack> : 

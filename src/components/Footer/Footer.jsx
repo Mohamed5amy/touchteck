@@ -48,8 +48,8 @@ const Footer = () => {
               <Typography variant="subtitle" maxWidth={200} > {isEn ? "Palestine-Nablus - Al-makhfiya main St- opposite Diwan kwny" :"فلسطين - نابلس - المخفيه بجانب صحة المخفيه - مقابل ديوان الكوني"}</Typography>
             </Stack>
             <Stack direction={"row"} spacing={4} alignItems={"center"} >
-              <a href="tel:009792347767"><IconButton color="secondary" > <LocalPhoneOutlinedIcon /> </IconButton></a>
-              <Typography variant="subtitle" > 009792347767 </Typography>
+              <a href="tel:+972594665511"><IconButton color="secondary" > <LocalPhoneOutlinedIcon /> </IconButton></a>
+              <Typography variant="subtitle" > +972594665511 </Typography>
             </Stack>
             <Stack direction={"row"} spacing={4} alignItems={"center"} >
               <a href="mailto:info@touchtechco.com" target="_blank" rel="noreferrer" ><IconButton color="secondary"> <MailOutlineRoundedIcon /> </IconButton></a>
