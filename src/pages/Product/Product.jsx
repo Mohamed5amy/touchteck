@@ -170,7 +170,7 @@ const Product = () => {
             {product?.options?.map(option => {
               return (
                 <Stack direction={"row"} alignItems={"center"} key={option.id} >
-                  <ArrowLeftIcon color="primary" />
+                  <ArrowLeftIcon color="primary" sx={{rotate : isEn ? "180deg" : "0deg" }} />
                   <Typography variant="subtitle" > {isEn ? option.title : option.title_ar} : </Typography>
                   &nbsp;&nbsp;
                   <Typography variant="subtitle" color={"text.third"} > {option.option} </Typography>
@@ -183,7 +183,10 @@ const Product = () => {
           <Typography variant="h2" mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>
             {isEn ? product?.title : product?.title_ar}
           </Typography>
-          <Typography variant="h2" color={"primary"} mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.price} ₪</Typography>
+          <Stack direction={"row"} alignItems={"center"} spacing={8}>
+            <Typography variant="h2" color={"primary"} mb={4} fontSize={{xs : 24 , sm : 32}} sx={{textTransform : "capitalize"}}>{product?.price}₪</Typography>
+            {product?.discount_price && <Typography variant="subtitle" color={"GrayText"} sx={{textDecoration : "line-through"}} > {product?.discount_price} </Typography>}
+          </Stack>
           <Typography color={"#66707A"} mb={4} fontSize={14} sx={{textTransform : "capitalize"}}>
             {isEn ? product?.description : product?.description_ar}
           </Typography>
@@ -277,7 +280,7 @@ const Product = () => {
           </Stack>
         </Grid>
       </Grid>}
-      <Products catId={product?.sub_category?.category?.id} />
+      <Products catId={product?.sub_category?.id} />
       <ToastContainer position="bottom-right" />
     </Stack >
   )
@@ -345,16 +348,19 @@ const Products = ({catId}) => {
 
   useEffect(() => {
     axios
-        .post(import.meta.env.VITE_API + "filterProducts", {
-          categoriesIds : [catId]
+        .get(import.meta.env.VITE_API + "filterProducts", {
+          params : {
+            subCategoriesIds : [{id : catId}],
+            page : 1
+          }
         } , { 
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
             },
         })
         .then((res) => {
-            console.log(res.data.data.Product);
-            setProducts(res.data.data.Product);
+            console.log(res.data.data.Product.data);
+            setProducts(res.data.data.Product.data);
         })
         .catch((err) => {
             console.log(err);
@@ -368,7 +374,7 @@ const Products = ({catId}) => {
       <Header title={isEn ? "Similar Products" : "منتجات مشابهة"} />
       <Stack height={32}></Stack>
       <Grid container spacing={15}>
-        {products?.slice(0 , 4).map(product => {
+        {products?.slice(0 , 4)?.map(product => {
           return (
             <Grid item xs={6} md={4} lg={3} key={product.id} >
               <Link to={"/products/" + product.id} onClick={() => window.scrollTo(0, 0)} ><Pro product={product} /></Link>

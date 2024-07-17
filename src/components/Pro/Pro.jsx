@@ -69,7 +69,10 @@ const Pro = ({product , fav , newP}) => {
 
         </Stack>
         <Typography fontWeight={500} mb={4} fontSize={{xs : 14 , sm : 16}} > {isEn ? product?.title : product?.title_ar} </Typography>
-        <Typography fontWeight={600} fontSize={{xs : 16 , sm : 18}} color={"primary"} > {product?.price} ₪ </Typography>
+        <Stack direction={"row"} alignItems={"center"} spacing={4}>
+          <Typography fontWeight={600} fontSize={{xs : 16 , sm : 18}} color={"primary"} > {product?.price}₪ </Typography>
+          {product?.discount_price && <Typography variant="label" color={"GrayText"} sx={{textDecoration : "line-through"}} > {product?.discount_price} </Typography>}
+        </Stack>
         <Stack sx={{position : "absolute" , top : 8}} direction={"row"} alignItems={"center"} justifyContent={"space-between"} width={"100%"} px={8} >
           {newP ? <Typography fontSize={12} color={"#FAFAFA"} bgcolor={"primary.secondary"} p={"4px 12px"} borderRadius={"8px"}> {isEn ? "New" : "جديدنا"} </Typography> : <Stack></Stack>}
           <IconButton className={checkFav ? "active" : ""} sx={{color : "#9EA7B8" , "&:hover , &.active" : {color : "red"}}} color="error" onClick={() => addToFav()}>

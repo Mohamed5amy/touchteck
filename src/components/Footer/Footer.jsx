@@ -22,7 +22,7 @@ const Footer = () => {
         <Grid item xs={12} sm={6} md={4} lg={3} >
           <Stack spacing={12} > 
             <img src={logo} alt="Logo" width={100} /> 
-            <Typography fontSize={15} lineHeight={"150%"} color={"#DDD"} >{isEn ? "Touch Tech is your one-stop shop for the latest and coolest gadgets. Explore our wide range of high-tech products and enjoy the best prices and service." :"Touch Tech هو متجرك الشامل لأحدث وأروع الأجهزة استكشف مجموعتنا الواسعة من المنتجات عالية التقنية واستمتع بأفضل الأسعار والخدمات."}</Typography> 
+            <Typography fontSize={15} lineHeight={"150%"} color={"#DDD"} >{isEn ? "Touch Tech is your one-stop shop for the latest and coolest gadgets. Explore our wide range of high-tech products and enjoy the best prices and service." :"Touch Tech هو متجرك الشامل لأحدث وأروع الاكسسوارات استكشف مجموعتنا الواسعة من المنتجات عالية التقنية واستمتع بأفضل الأسعار والخدمات."}</Typography> 
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} >
@@ -49,7 +49,7 @@ const Footer = () => {
             </Stack>
             <Stack direction={"row"} spacing={4} alignItems={"center"} >
               <a href="tel:+972594665511"><IconButton color="secondary" > <LocalPhoneOutlinedIcon /> </IconButton></a>
-              <Typography variant="subtitle" > +972594665511 </Typography>
+              <Typography variant="subtitle" > {isEn ? "+972594665511" : "972594665511+"} </Typography>
             </Stack>
             <Stack direction={"row"} spacing={4} alignItems={"center"} >
               <a href="mailto:info@touchtechco.com" target="_blank" rel="noreferrer" ><IconButton color="secondary"> <MailOutlineRoundedIcon /> </IconButton></a>
