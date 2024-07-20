@@ -1,6 +1,6 @@
 import { Box, Breadcrumbs, Button, CircularProgress, Grid,  Stack, Typography , IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Input from "../../components/Input/Input";
@@ -33,6 +33,10 @@ const Contact = () => {
   }
   
   const isEn = useLang()
+
+  useEffect(() => {
+    window.scrollTo(0 , 0)
+  } , [])
   
   return (
     <Stack pt={8} px={{xs : 10 , sm : 20 , md : 10 , lg : 70}} bgcolor={"#ECF1F6"} pb={37}>
