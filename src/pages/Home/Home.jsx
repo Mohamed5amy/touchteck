@@ -489,11 +489,11 @@ const Features = () => {
             d="M37.913 41.054l.354.353.353-.353 6.284-6.284a.757.757 0 011.059 0 .757.757 0 010 1.06l-7.167 7.166a.736.736 0 01-.53.22.736.736 0 01-.53-.22l-2.682-2.683a.757.757 0 010-1.06.757.757 0 011.059 0l1.8 1.8z"
           ></path>
         </svg>
-        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} >
-          {isEn ? "MONEY BACK GUARANTEE" : "ضمان استعادة الاموال"}
+        <Typography mt={12} mb={4} fontSize={20} lineHeight={"28px"} fontWeight={600} color={"black"} textTransform={"uppercase"}>
+          {isEn ? "warranty of the goods" : "ضمان كفاله البضاعه"}
         </Typography>
         <Typography fontSize={14} lineHeight={"21px"} fontWeight={400} color={"black"} > 
-        {isEn ? "We reurn money within 30 days" :"نقوم بإرجاع الأموال خلال 30 يومًا "}
+        {isEn ? "We Guarantee the warranty of the goods" :"نحن نضمن كفالة البضاعة"}
         </Typography>
       </Box>
     </Stack>
